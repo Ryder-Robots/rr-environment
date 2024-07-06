@@ -6,8 +6,8 @@ add_library(rrenvironment SHARED
     include/rrenvironment/AnstractAction.hpp
 )
 include(GNUInstallDirs)
-set_target_properties(rrenvironment PROPERTIES SOVERSION VERSION ${PROJECT_VERSION})
-set_target_properties(rrenvironmentt PROPERTIES PUBLIC_HEADER include/rrenvironment/AnstractAction.hpp)
+set_target_properties(rrenvironment PROPERTIES SOVERSION ${PROJECT_VERSION} VERSION ${PROJECT_VERSION})
+# set_target_properties(rrenvironmentt PROPERTIES PUBLIC_HEADER include/rrenvironment/AnstractAction.hpp)
 configure_file(rrenvironment.pc.in rrenvironment.pc @ONLY)
 install(
     TARGETS rrenvironment
