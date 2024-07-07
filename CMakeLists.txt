@@ -9,10 +9,6 @@ project(rrenvironment
 set(DLIB_VERSION v19.24)
 set(JSON_VERSION v3.11.3)
 
-set(PROJECT_VERSION 1.0.1)
-set(PROJECT_VERSION_MAJOR 1)
-set(PROJECT_VERSION_MINOR 0)
-set(PROJECT_VERSION_PATCH 1)
 
 include(FetchContent)
 FetchContent_Declare(dlib
@@ -34,8 +30,8 @@ add_library(rrenvironment SHARED src/rrenvironment/rrenvironment.hpp)
 target_link_libraries(rrenvironment dlib::dlib)
 
 # Create library install locatons
-string(APPEND RR_LIBRARY_OUTPUT  "opt/rrobots/lib/" ${PROJECT_NAME})
-string(APPEND RR_PUBLIC_HEADER "opt/rrobots/include/" ${PROJECT_NAME})
+string(APPEND RR_LIBRARY_OUTPUT  "/opt/rrobots/lib/" ${PROJECT_NAME})
+string(APPEND RR_PUBLIC_HEADER "/opt/rrobots/include/" ${PROJECT_NAME})
 
 # Create install setup
 set_target_properties(rrenvironment PROPERTIES SOVERSION ${PROJECT_VERSION} VERSION ${PROJECT_VERSION} LINKER_LANGUAGE CXX)
