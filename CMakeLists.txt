@@ -8,13 +8,13 @@ project(rrenvironment
 
 
 
-add_library(rrenvironment SHARED include/rrenvironment/AbstractAction.hpp)
+add_library(rrenvironment SHARED src/rrenvironment/rrenvironment.hpp)
 
 string(APPEND RR_LIBRARY_OUTPUT  "usr/lib/" ${PROJECT_NAME})
 string(APPEND RR_PUBLIC_HEADER "usr/include/" ${PROJECT_NAME})
 
 set_target_properties(rrenvironment PROPERTIES SOVERSION ${PROJECT_VERSION} VERSION ${PROJECT_VERSION} LINKER_LANGUAGE CXX)
-set_target_properties(rrenvironment PROPERTIES PUBLIC_HEADER include/rrenvironment/AbstractAction.hpp)
+set_target_properties(rrenvironment PROPERTIES PUBLIC_HEADER src/rrenvironment/rrenvironment.hpp)
 configure_file(rrenvironment.pc.in rrenvironment.pc @ONLY)
 install(
     TARGETS rrenvironment
