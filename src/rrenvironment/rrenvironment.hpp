@@ -43,8 +43,6 @@ class RrEnvironment {
 
         // executes an indivual action.
         void execute_action(unsigned int oid, dlib::future<json>& action_io);
-}
-
-
+};
 
 #endif
