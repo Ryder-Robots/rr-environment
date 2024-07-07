@@ -5,7 +5,13 @@
 #ifndef ABSTRACTACTION_HPP
 #define ABSTRACTACTION_HPP
 
-#include <string>
+#include <nlohmann/json.hpp>
+
+class RrEnvironment {
+    public:
+        void setup(Json );
+        void set_request();
+}
 
 
 
