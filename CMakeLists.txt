@@ -10,11 +10,8 @@ project(rrenvironment
 
 add_library(rrenvironment SHARED include/rrenvironment/AbstractAction.hpp)
 
-# https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html
-include(GNUInstallDirs)
-
-set(RR_LIBRARY_OUTPUT ${LIBDIR})
-set(RR_PUBLIC_HEADER   ${INCLUDEDIR})
+string(APPEND RR_LIBRARY_OUTPUT  "usr/lib/" ${PROJECT_NAME})
+string(APPEND RR_PUBLIC_HEADER "usr/include/" ${PROJECT_NAME})
 
 set_target_properties(rrenvironment PROPERTIES SOVERSION ${PROJECT_VERSION} VERSION ${PROJECT_VERSION} LINKER_LANGUAGE CXX)
 set_target_properties(rrenvironment PROPERTIES PUBLIC_HEADER include/rrenvironment/AbstractAction.hpp)
