@@ -5,44 +5,23 @@
 #ifndef ABSTRACTACTION_HPP
 #define ABSTRACTACTION_HPP
 
-#include <nlohmann/json.hpp>
-#include <string.h>
+#include <string>
 #include <map>
 
-using json = nlohmann::json;
-using string = std::string
+using namespace std;
 
 class RrEnvironment {
     public:
         /*
-         * sets hardware configuration.
+         * Sets hardware observation class.
          */
-        void setup_hw(const unsigned int oid, const string hw_class, const json config);
+        void add_hw_observer(const unsigned int oid, const string hw_class, const map<std::string, int>&  config);
 
         /*
-         * links environment to threadpool.
+        * set hw action and add it to list.
          */
-        void setup_thread_pool(thread_pool& tp);
+        void add_hw_action(const unsigned int oid, const string hw_class, const map<std::string, int>&  config);
 
-        /*
-         * sets the next request to process.
-         */
-        void set_request(unsigned int oid, dlib::future<json>& action_io);
-
-
-        /******************************************************************
-         * trigger all queued actions. The results will be transferred to 
-         * json future task.
-         ******************************************************************/
-        void trigger();
-
-
-    private:
-
-        // 
-
-        // executes an indivual action.
-        void execute_action(unsigned int oid, dlib::future<json>& action_io);
 };
 
 #endif
