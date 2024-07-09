@@ -7,6 +7,7 @@ set(CPACK_PACKAGE_NAME "rrenvironment")
 set(CPACK_PACKAGE_VERSION_MAJOR "1")
 set(CPACK_PACKAGE_VERSION_MINOR "0")
 set(CPACK_PACKAGE_VERSION_PATCH "1")
+set(CPACK_PACKAGING_INSTALL_PREFIX "/opt/rrobot")
 set(VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
 
 set(DLIB_VERSION v19.24)
@@ -32,6 +33,8 @@ list(APPEND CMAKE_MODULE_PATH ${nlohmann_json})
 
 # Add include paths
 include_directories(${json_SOURCE_DIR}/include)
+include_directories(${dlib_SOURCE_DIR})
+include_directories(src)
 
 # Create library outline
 add_library(rrenvironment SHARED ${source_files})
@@ -47,6 +50,15 @@ set_target_properties(rrenvironment PROPERTIES SOVERSION ${PROJECT_VERSION} VERS
 set_target_properties(rrenvironment PROPERTIES PUBLIC_HEADER ${source_file_prefix}/rrenvironment.hpp)
 
 
+# # Test builds
+include(CTest)
+add_executable(Testl298 test/components/test-l298.cpp)
+target_link_libraries(Testl298 rrenvironment)
+# enable_testing()
+
+# add_test(NAME mytest COMMAND testDriver --config $<CONFIG> --exe $<TARGET_FILE:myexe>)
+
+# install locations
 configure_file(rrenvironment.pc.in rrenvironment.pc @ONLY)
 install(
     TARGETS rrenvironment
