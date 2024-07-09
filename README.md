@@ -1,8 +1,22 @@
 # rr-environment
 drivers for raspberry 4B
 
+## Quick Build
 
 ```
+rm -fR build && cmake -S . -B build && cmake --build build
+```
+
+## Install Dlib Library
+
+```
+rm -fR build;mkdir build; cd build; cmake .. ; cmake --build .
+sudo cmake --install .
+```
+
+## Create library
+```
+sudo apt install ffmpeg
 sudo apt-get install libopenblas-dev liblapack-dev 
 
 rm -rf _builds _install build && \
