@@ -11,12 +11,12 @@ set(CPACK_PACKAGE_NAME "rrenvironment")
 set(CPACK_PACKAGE_VERSION_MAJOR "1")
 set(CPACK_PACKAGE_VERSION_MINOR "0")
 set(CPACK_PACKAGE_VERSION_PATCH "1")
-#set(DLIB_VERSION v19.24)
 set(VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
 set(JSON_VERSION v3.11.3)
 set(rrenvironment_SOURCES 
     src/rrenvironment/rrenvironment.cpp
     src/rrenvironment/Actions.hpp 
+    src/rrenvironment/Wiring.hpp
 )
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "wiringpi, wiringpi (>= 3.2)")
 
@@ -32,7 +32,6 @@ pkg_search_module(DLIB REQUIRED dlib-1)
 
 # Create library outline
 add_library(rrenvironment SHARED  ${rrenvironment_SOURCES} )
-#target_link_libraries(rrenvironment ${DLIB_LIBRARIES} )
 
 # install locations
 configure_file(rrenvironment.pc.in rrenvironment.pc @ONLY)
