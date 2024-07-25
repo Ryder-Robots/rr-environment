@@ -2,12 +2,12 @@
   * Test wiringPiSetupGpio
   **********************************************************************************/
  
- #include "rrenvironment/Actions.hpp"
- #include <map>
- #include <wiringPi.h>
+
+#include <map>
+#include "rrenvironment/Actions.hpp"
 
 int main() {
-    //wiringPiSetupGpio();
+    rrenv::Wiring *wiring = new rrenv::WiringPiMock();
     // rrevnv::Actions* l298 = new rrevnv::L298();
 
     // std::map<std::string, int> config = {

@@ -10,7 +10,7 @@
 
 dlib::logger dlog_w("Wiring"); 
 
-namespace rrevnv {
+namespace rrenv {
     class Wiring {
     public: 
         virtual void initilize() {}
