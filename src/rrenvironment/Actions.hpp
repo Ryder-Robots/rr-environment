@@ -17,12 +17,16 @@ namespace rrenv {
 
     class Actions {
     public:
-        virtual void setup(std::map<std::string, int>  &config) {}
+        virtual void setup(std::map<std::string, int>  &config) {
+
+        };
 
         /**
          * run is executed within the thread. Args a list of values that used when running.
          */
-        virtual void run(std::map<std::string, int> &args) {}
+        virtual void run(std::map<std::string, int> &args) {
+
+        };
 
         void initialize(Wiring &wiring) {
             _wiring = wiring;
