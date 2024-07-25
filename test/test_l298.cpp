@@ -7,13 +7,16 @@
 #include "rrenvironment/Actions.hpp"
 
 int main() {
-    rrenv::Wiring *wiring = new rrenv::WiringPiMock();
-    // rrevnv::Actions* l298 = new rrevnv::L298();
+    rrenv::Wiring wiring = rrenv::WiringPiMock();
+    rrenv::Actions l298 = rrenv::L298();
 
-    // std::map<std::string, int> config = {
-    //     {"IN1", 23}, {"IN2", 24},{"IN3", 27},{"IN4", 17},{"ENA", 12},{"ENB", 13}
-    // };
-    // l298->setup(config);
+    wiring.initilize();
+    l298.initialize(wiring);
+
+    std::map<std::string, int> config = {
+        {"IN1", 23}, {"IN2", 24},{"IN3", 27},{"IN4", 17},{"ENA", 12},{"ENB", 13}
+    };
+    l298.setup(config);
 
     // std::map<std::string, int> args = {};
     // l298->run(args);
