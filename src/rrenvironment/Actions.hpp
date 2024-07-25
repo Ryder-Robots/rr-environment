@@ -17,12 +17,19 @@ namespace rrevnv {
 
     class Actions {
     public:
-        virtual void setup(std::map<std::string, int>  config) {}
+        virtual void setup(std::map<std::string, int>  &config) {}
 
         /**
          * run is executed within the thread. Args a list of values that used when running.
          */
         virtual void run(std::map<std::string, int> &args) {}
+
+        void initialize(Wiring &wiring) {
+            _wiring = wiring;
+        }
+
+    protected:
+        Wiring _wiring;
     };
 
     /**
@@ -42,14 +49,13 @@ namespace rrevnv {
         static const int MIN_PWM_VAL = 0;
         static const int MAX_PWM_VAL = 1024;
 
-        L298(rrevnv::Wiring wiring) : 
+        L298() : 
             IN1("IN1"),
             IN2("IN2"),
             IN3("IN3"),
             IN4("IN4"),
             ENA("ENA"),
-            ENB("ENB"),
-            _wiring(wiring)
+            ENB("ENB")
         {
             dlog << dlib::LINFO << "initialised L298 driver";
         }
@@ -57,21 +63,21 @@ namespace rrevnv {
         /*
          * Sets up the pin layout
          */
-        void setup(std::map<std::string, int>  config) {
+        void setup(std::map<std::string, int>  &config) {
             try {
                 dlog << dlib::LINFO << "configuring L298";
-                pinMode(config[IN1], OUTPUT);
+                _wiring.pin_mode(config[IN1], OUTPUT);
                 _in1 = config[IN1];
-                pinMode(config[IN2], OUTPUT);
+                _wiring.pin_mode(config[IN2], OUTPUT);
                 _in2 = config[IN2];
-                pinMode(config[ENA], PWM_OUTPUT);
+                _wiring.pin_mode(config[ENA], PWM_OUTPUT);
                 _ena = config[ENA];
 
-                pinMode(config[IN3], OUTPUT);
+                _wiring.pin_mode(config[IN3], OUTPUT);
                 _in3 = config[IN3];
-                pinMode(config[IN4], OUTPUT);
+                _wiring.pin_mode(config[IN4], OUTPUT);
                 _in4 = config[IN4];
-                pinMode(config[ENB], PWM_OUTPUT);
+                _wiring.pin_mode(config[ENB], PWM_OUTPUT);
                 _enb = config[ENB];
 
                 dlog << dlib::LINFO << "finished configuring L298";
@@ -92,15 +98,15 @@ namespace rrevnv {
                 }
 
                 dlib::auto_mutex lock(_mtx);
-                digitalWrite(_in1, args[IN1]);
-                digitalWrite(_in2, args[IN2]);
+                _wiring.digital_write(_in1, args[IN1]);
+                _wiring.digital_write(_in2, args[IN2]);
 
-                digitalWrite(_in3, args[IN3]);
-                digitalWrite(_in4, args[IN4]);
+                _wiring.digital_write(_in3, args[IN3]);
+                _wiring.digital_write(_in4, args[IN4]);
 
                 // range is 0 to 1024
-                pwmWrite(_ena, args[ENA]);
-                pwmWrite(_enb, args[ENB]);
+                _wiring.pmw_write(_ena, args[ENA]);
+                _wiring.pmw_write(_enb, args[ENB]);
                 _mtx.unlock();
             } catch (...) {
                 dlog << dlib::LERROR << "motor could not get sent a message";
@@ -114,20 +120,8 @@ namespace rrevnv {
 
         int _ena;
         int _enb;
-        Wiring _wiring;
 
         dlib::mutex _mtx;
     };
-
-    /**********************************************************************
-     * Constants for L298 drivers.
-     **********************************************************************/
-    // const std::string L298::IN1 = "IN1";
-    // const std::string L298::IN2 = "IN2";
-    // const std::string L298::IN3 = "IN3";
-    // const std::string L298::IN4 = "IN4";
-    // const std::string L298::ENA = "ENA";
-    // const std::string L298::ENB = "ENB";
 }
-
 #endif
