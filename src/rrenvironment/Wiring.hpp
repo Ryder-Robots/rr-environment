@@ -54,12 +54,15 @@ namespace rrenv {
          }
 
         void pin_mode(int pin, int mode) {
+            dlog_w << dlib::LINFO << "pin:" << pin << " mode" << mode;
         }
 
         void digital_write(int pin, int value) {
+            dlog_w << dlib::LINFO << "pin:" << pin << " mode" << value;
         }
 
         void pmw_write(int pin, int value) {
+            dlog_w << dlib::LINFO << "pin:" << pin << " mode" << value;
         }
     };
 
