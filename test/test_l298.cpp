@@ -7,7 +7,7 @@
  #include <wiringPi.h>
 
 int main() {
-    wiringPiSetupGpio();
+    //wiringPiSetupGpio();
     // rrevnv::Actions* l298 = new rrevnv::L298();
 
     // std::map<std::string, int> config = {

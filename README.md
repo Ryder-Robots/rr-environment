@@ -29,7 +29,7 @@ sudo apt install libavutil-dev
 # Download wiringPi (soon to be deprecated but someone is still maintaining it for the moment)
 # https://github.com/WiringPi/WiringPi/releases
 
-sudo apt-get install wiringpi_3.6_arm64.deb
+sudo apt-get install wiringpi
 
 rm -rf _builds _install build && \
 cmake -H. -B_builds/shared -DBUILD_SHARED_LIBS=ON -DDLIB_NO_GUI_SUPPORT=ON -DCMAKE_INSTALL_PREFIX="`pwd`/_install/" 
