@@ -7,10 +7,11 @@
 #include "rrenvironment/Actions.hpp"
 
 int main() {
-    rrenv::WiringPiMock wiring = rrenv::WiringPiMock();
-    rrenv::Actions l298 = rrenv::L298();
+    rrenv::Wiring *wiring;
+    rrenv::WiringPiMock wiring = rrenv::WiringPiMock();    
+    rrenv::L298 l298 = rrenv::L298();
 
-    wiring.initilize();
+    wiring->initilize();
     l298.initialize(wiring);
 
     std::map<std::string, int> config = {
