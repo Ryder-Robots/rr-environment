@@ -6,6 +6,10 @@
 #include <map>
 #include "rrenvironment/Actions.hpp"
 
+// TODO: THis will go in the logging class
+#include <nlohmann/json.hpp>
+#include <chrono>
+
 using namespace dlib;
 using namespace std;
 
@@ -24,8 +28,16 @@ public:
         const char* message_to_log
     )
     {
+        std::time_t t = std::time(nullptr);
+        nlohmann::json j;
+        j["level"] = ll.name;
+        j["name"] = logger_name;
+        j["thread_id"] = thread_id;
+        j["epoch"] = t;
+        j["message"] = message_to_log;
+
         // Log all messages from any logger to our log file.
-        fout << ll << " ["<<thread_id<<"] " << logger_name << ": " << message_to_log << endl;
+        fout << j.dump() << endl;
     }
 
 private:
