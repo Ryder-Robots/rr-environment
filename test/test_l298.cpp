@@ -9,10 +9,10 @@
 using namespace dlib;
 using namespace std;
 
-class my_hook
+class RrLoggerHook
 {
 public:
-    my_hook(string fname) 
+    RrLoggerHook(string fname) 
     {
         fout.open(fname, std::ios_base::app);
     }
@@ -26,7 +26,6 @@ public:
     {
         // Log all messages from any logger to our log file.
         fout << ll << " ["<<thread_id<<"] " << logger_name << ": " << message_to_log << endl;
-        cout << ll << " ["<<thread_id<<"] " << logger_name << ": " << message_to_log << endl;
     }
 
 private:
@@ -38,7 +37,7 @@ using namespace dlib;
 dlib::logger dlog("test_l298");
 
 int main() {
-    my_hook hook("stdout");
+    RrLoggerHook hook("/dev/stdout");
     set_all_logging_output_hooks(hook);
    
     dlog.set_level(LALL);
