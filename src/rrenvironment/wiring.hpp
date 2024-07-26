@@ -18,7 +18,7 @@ namespace rrenv {
         virtual void digital_write(int pin, int value) {}
 
         virtual void pmw_write(int pin, int value) {}
-
+   
     };
 
     // binds to wiring PI library.
@@ -39,21 +39,13 @@ namespace rrenv {
     class WiringPiMock : public Wiring {
    public: 
 
-        void initilize() {
-            // dlog_w << dlib::LINFO << "initializing using mock engine";
-         }
+        void initilize();
 
-        void pin_mode(int pin, int mode) {
-            // dlog_w << dlib::LINFO << "pin:" << pin << " mode" << mode;
-        }
+        void pin_mode(int pin, int mode);
 
-        void digital_write(int pin, int value) {
-            // dlog_w << dlib::LINFO << "pin:" << pin << " mode" << value;
-        }
+        void digital_write(int pin, int value);
 
-        void pmw_write(int pin, int value) {
-            // dlog_w << dlib::LINFO << "pin:" << pin << " mode" << value;
-        }
+        void pmw_write(int pin, int value);
     };
 
 }

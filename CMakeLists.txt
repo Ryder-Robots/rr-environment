@@ -35,6 +35,7 @@ pkg_search_module(DLIB REQUIRED dlib-1)
 
 # Create library outline
 add_library(rrenvironment SHARED  ${rrenvironment_SOURCES} )
+target_link_libraries(rrenvironment /usr/lib/libwiringPi.so)
 
 # install locations
 configure_file(rrenvironment.pc.in rrenvironment.pc @ONLY)
@@ -50,7 +51,6 @@ enable_testing()
 # Test components
 include_directories(src)
 add_executable(test_l298 test/test_l298.cpp)
-target_link_libraries(test_l298 /usr/lib/libwiringPi.so)
 target_link_libraries(test_l298 rrenvironment)
 target_link_libraries(test_l298 dlib)
 add_test(NAME test_l298

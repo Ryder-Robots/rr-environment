@@ -5,14 +5,15 @@
 
 #include "rrenvironment/wiring.hpp"
 
+
 // Create a logger specific for this
-dlib::logger dlog("WiringGpio");
+dlib::logger dlog_gpio("WiringGpio");
 
 namespace rrenv {
 
         // configures to BDM pin number which will work for RF robot hardware.
          void WiringGpio::initilize() {
-            dlog << dlib::LINFO << "initializing using BDM (GPIO) pin layout";
+            dlog_gpio << dlib::LINFO << "initializing using BDM (GPIO) pin layout";
             wiringPiSetupGpio();
          }
 
