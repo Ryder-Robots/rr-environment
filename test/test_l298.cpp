@@ -8,7 +8,6 @@
 
 // TODO: THis will go in the logging class
 #include <nlohmann/json.hpp>
-#include <chrono>
 
 using namespace dlib;
 using namespace std;
@@ -18,6 +17,7 @@ class RrLoggerHook
 public:
     RrLoggerHook(string fname) 
     {
+        // Append to log file
         fout.open(fname, std::ios_base::app);
     }
 
@@ -43,7 +43,6 @@ public:
 private:
     ofstream fout;
 };
-
 
 using namespace dlib;
 dlib::logger dlog("test_l298");
