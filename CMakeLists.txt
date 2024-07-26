@@ -19,12 +19,13 @@ set(rrenvironment_SOURCES
     src/rrenvironment/Wiring.hpp
 )
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "wiringpi, wiringpi (>= 3.2)")
+set(PUBLIC_HEADER include/rr_logger_hook.hpp)
 
 
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/${JSON_VERSION}/json.tar.xz)
 FetchContent_MakeAvailable(json)
 list(APPEND CMAKE_MODULE_PATH ${nlohmann_json})
-include_directories(${json_SOURCE_DIR}/include)
+include_directories(${json_SOURCE_DIR}/include include)
 
 pkg_search_module(DLIB REQUIRED dlib-1)
 

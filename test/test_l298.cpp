@@ -5,44 +5,7 @@
 #include <cstdio>
 #include <map>
 #include "rrenvironment/Actions.hpp"
-
-// TODO: THis will go in the logging class
-#include <nlohmann/json.hpp>
-
-using namespace dlib;
-using namespace std;
-
-class RrLoggerHook
-{
-public:
-    RrLoggerHook(string fname) 
-    {
-        // Append to log file
-        fout.open(fname, std::ios_base::app);
-    }
-
-    void log (
-        const string& logger_name,
-        const log_level& ll,
-        const uint64 thread_id,
-        const char* message_to_log
-    )
-    {
-        std::time_t t = std::time(nullptr);
-        nlohmann::json j;
-        j["level"] = ll.name;
-        j["name"] = logger_name;
-        j["thread_id"] = thread_id;
-        j["epoch"] = t;
-        j["message"] = message_to_log;
-
-        // Log all messages from any logger to our log file.
-        fout << j.dump() << endl;
-    }
-
-private:
-    ofstream fout;
-};
+#include "rrenvironment/rr_logger_hook.hpp"
 
 using namespace dlib;
 dlib::logger dlog("test_l298");
