@@ -8,8 +8,6 @@
 #include <dlib/logger.h>
 
 
-dlib::logger dlog_w("Wiring"); 
-
 namespace rrenv {
     class Wiring {
     public: 
@@ -20,6 +18,13 @@ namespace rrenv {
         virtual void digital_write(int pin, int value) {}
 
         virtual void pmw_write(int pin, int value) {}
+
+        void set_logger() {
+
+        }
+
+    private:
+        Dlib::Logger logger;
     };
 
     // binds to wiring PI library.
