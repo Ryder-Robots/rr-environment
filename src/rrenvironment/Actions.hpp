@@ -11,7 +11,7 @@
 #include <dlib/threads.h>
 #include "rrenvironment/Wiring.hpp"
 
-dlib::logger dlog("L298"); 
+// dlib::logger dlog("L298"); 
 
 namespace rrenv {
 
@@ -61,7 +61,7 @@ namespace rrenv {
             ENA("ENA"),
             ENB("ENB")
         {
-            dlog << dlib::LINFO << "initialised L298 driver";
+            // dlog << dlib::LINFO << "initialised L298 driver";
         }
 
         /*
@@ -69,7 +69,7 @@ namespace rrenv {
          */
         void setup(std::map<std::string, int>  &config) {
             try {
-                dlog << dlib::LINFO << "configuring L298";
+                // dlog << dlib::LINFO << "configuring L298";
                 _wiring.pin_mode(config[IN1], OUTPUT);
                 _in1 = config[IN1];
                 _wiring.pin_mode(config[IN2], OUTPUT);
@@ -84,9 +84,9 @@ namespace rrenv {
                 _wiring.pin_mode(config[ENB], PWM_OUTPUT);
                 _enb = config[ENB];
 
-                dlog << dlib::LINFO << "finished configuring L298";
+                // dlog << dlib::LINFO << "finished configuring L298";
             } catch (...) {
-                dlog << dlib::LFATAL << "unable to configure motor";
+                // dlog << dlib::LFATAL << "unable to configure motor";
                 throw "RR_MOTOR_EXCEPTION";
             }
         }
@@ -113,7 +113,7 @@ namespace rrenv {
                 _wiring.pmw_write(_enb, args[ENB]);
                 _mtx.unlock();
             } catch (...) {
-                dlog << dlib::LERROR << "motor could not get sent a message";
+                // dlog << dlib::LERROR << "motor could not get sent a message";
             }
         }
     private:

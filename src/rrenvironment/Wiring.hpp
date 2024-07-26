@@ -19,12 +19,6 @@ namespace rrenv {
 
         virtual void pmw_write(int pin, int value) {}
 
-        void set_logger() {
-
-        }
-
-    private:
-        Dlib::Logger logger;
     };
 
     // binds to wiring PI library.
@@ -33,7 +27,7 @@ namespace rrenv {
          
          // configures to BDM pin number which will work for RF robot hardware.
          void initilize() {
-            dlog_w << dlib::LINFO << "initializing using BDM (GPIO) pin layout";
+            // dlog_w << dlib::LINFO << "initializing using BDM (GPIO) pin layout";
             wiringPiSetupGpio();
          }
 
@@ -55,19 +49,19 @@ namespace rrenv {
    public: 
 
         void initilize() {
-            dlog_w << dlib::LINFO << "initializing using mock engine";
+            // dlog_w << dlib::LINFO << "initializing using mock engine";
          }
 
         void pin_mode(int pin, int mode) {
-            dlog_w << dlib::LINFO << "pin:" << pin << " mode" << mode;
+            // dlog_w << dlib::LINFO << "pin:" << pin << " mode" << mode;
         }
 
         void digital_write(int pin, int value) {
-            dlog_w << dlib::LINFO << "pin:" << pin << " mode" << value;
+            // dlog_w << dlib::LINFO << "pin:" << pin << " mode" << value;
         }
 
         void pmw_write(int pin, int value) {
-            dlog_w << dlib::LINFO << "pin:" << pin << " mode" << value;
+            // dlog_w << dlib::LINFO << "pin:" << pin << " mode" << value;
         }
     };
 
