@@ -9,7 +9,7 @@
 #include <string>
 #include <dlib/logger.h>
 #include <dlib/threads.h>
-#include "rrenvironment/Wiring.hpp"
+#include "rrenvironment/wiring.hpp"
 
 // dlib::logger dlog("L298"); 
 
