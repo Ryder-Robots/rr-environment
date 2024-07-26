@@ -16,7 +16,9 @@ set(JSON_VERSION v3.11.3)
 set(rrenvironment_SOURCES 
     src/rrenvironment/rrenvironment.cpp
     src/rrenvironment/Actions.hpp 
-    src/rrenvironment/Wiring.hpp
+    src/rrenvironment/wiring.hpp
+    src/rrenvironment/wiring/wiringgpio.cpp
+    src/rrenvironment/wiring/wiringmock.cpp
 )
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "wiringpi, wiringpi (>= 3.2)")
 set(PUBLIC_HEADER include/rr_logger_hook.hpp)

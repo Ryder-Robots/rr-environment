@@ -1,0 +1,30 @@
+/*****************************************************************
+ * Binds the Pi to BDM (GPIO) pin layout
+ *****************************************************************/
+
+
+#include "rrenvironment/wiring.hpp"
+
+// Create a logger specific for this
+dlib::logger dlog("WiringGpio");
+
+namespace rrenv {
+
+        // configures to BDM pin number which will work for RF robot hardware.
+         void WiringGpio::initilize() {
+            dlog << dlib::LINFO << "initializing using BDM (GPIO) pin layout";
+            wiringPiSetupGpio();
+         }
+
+         void WiringGpio::pin_mode(int pin, int mode) {
+            return pinMode(pin, mode);
+         }
+
+         void WiringGpio::digital_write(int pin, int value) {
+            digitalWrite(pin, value);
+         }
+        
+         void WiringGpio::pmw_write(int pin, int value) {
+            pwmWrite(pin, value);
+         }
+}
