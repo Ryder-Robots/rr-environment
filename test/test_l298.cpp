@@ -54,6 +54,12 @@ void shouldExecuteCorrectly(rrenv::Wiring &wiring, rrenv::Actions &action) {
     action.run(args, wiring);
 }
 
+void shouldSetPwm(rrenv::Wiring &wiring, rrenv::Actions &action) {
+    std::map<std::string, int> args = {{"IN1", 1}, {"IN2", 0}, {"IN3", 1}, {"IN4", 0}, {"ENA", 2000}, {"ENB", -1}};
+    action.run(args, wiring);
+}
+
+
 int main() {
     RrLoggerHook hook("/dev/stdout");
     set_all_logging_output_hooks(hook);
@@ -76,6 +82,7 @@ int main() {
     // Test one just through an exception.
     shouldThrowException(wiring, l298);
     shouldExecuteCorrectly(wiring, l298);
+    shouldSetPwm(wiring, l298);
 
     dlog << LINFO << "finished testing";
     return 0;
