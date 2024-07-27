@@ -30,4 +30,8 @@ namespace rrenv {
          void WiringGpio::pmw_write(int pin, int value) {
             pwmWrite(pin, value);
          }
+
+         long WiringGpio::digital_read(int pin) {
+            return digital_read(pin);
+         }
 }

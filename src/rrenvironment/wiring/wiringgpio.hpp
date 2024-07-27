@@ -23,6 +23,8 @@ namespace rrenv {
         void digital_write(int pin, int value);
 
         void pmw_write(int pin, int value);
+
+        long digital_read(int pin);
     };
 }
 

@@ -19,6 +19,7 @@ namespace rrenv {
 
         virtual void pmw_write(int pin, int value) {}
    
+        virtual long digital_read(int pin) {return 0;}
     };
 }
 
