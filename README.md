@@ -1,6 +1,13 @@
 # rr-environment
 drivers for raspberry 4B
 
+## Create Docker image
+
+```
+docker build -t rrobot .
+docker run --rm -it rrobot 
+```
+
 ## Quick Build
 
 ```
