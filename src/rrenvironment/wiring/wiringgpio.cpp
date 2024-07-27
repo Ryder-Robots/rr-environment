@@ -1,9 +1,10 @@
-/*****************************************************************
- * Binds the Pi to BDM (GPIO) pin layout
- *****************************************************************/
+/***************************************************
+ * Wiring class to connect with raspberry PI using
+ * wiring PI, and BDM ping numbering.
+ ***************************************************/
 
 
-#include "rrenvironment/wiring.hpp"
+#include "rrenvironment/wiring/wiringgpio.hpp"
 
 
 // Create a logger specific for this

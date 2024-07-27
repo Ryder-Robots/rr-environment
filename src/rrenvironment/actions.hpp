@@ -7,6 +7,7 @@
 
 #include <map>
 #include <string>
+#include <wiringPi.h>
 #include <dlib/logger.h>
 #include <dlib/threads.h>
 #include "rrenvironment/wiring.hpp"
@@ -17,24 +18,12 @@ namespace rrenv {
 
     class Actions {
     public:
-        virtual void setup(std::map<std::string, int>  &config) {
-
-        };
+        virtual void setup(std::map<std::string, int>  &config, Wiring &wiring) = 0;
 
         /**
          * run is executed within the thread. Args a list of values that used when running.
          */
-        virtual void run(std::map<std::string, int> &args) {
-
-        };
-
-        void initialize(Wiring &wiring) {
-            dlog_a.set_level(dlib::LALL);
-            _wiring = wiring;
-        }
-
-    protected:
-        Wiring _wiring;
+        virtual void run(std::map<std::string, int> &args, Wiring &wiring) = 0;
     };
 
     /**
@@ -68,7 +57,7 @@ namespace rrenv {
         /*
          * Sets up the pin layout
          */
-        void setup(std::map<std::string, int>  &config) {
+        void setup(std::map<std::string, int>  &config, Wiring &_wiring) {
             dlog_a << dlib::LINFO << "setting up driver";
             try {
                 dlog_a << dlib::LINFO << "configuring L298";
@@ -96,11 +85,11 @@ namespace rrenv {
         /**
          * Send action to L298 motor.
          */
-        void run(std::map<std::string, int> &args) {
+        void run(std::map<std::string, int> &args, Wiring &_wiring) {
             try {
                 //TODO: check that values are within acceptable range.
                 for (auto it = args.begin(); it != args.end(); ++it) {
-
+                    
                 }
 
                 dlib::auto_mutex lock(_mtx);

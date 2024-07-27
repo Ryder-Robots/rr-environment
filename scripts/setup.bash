@@ -15,7 +15,7 @@ su aaron -c "mkdir /home/aaron/.ssh"
 su aaron -c "cp /tmp/config /home/aaron/.ssh/"
 su aaron -c "cp /tmp/id_rsa  /home/aaron/.ssh/"
 su aaron -c "chmod -R 700  /home/aaron/.ssh"
-
+su aaron -c "git config --global user.name 'Aaron Spiteri' && git config --global user.email 'azzmosphere@gmail.com.au'"
 su aaron -c "cd /home/aaron && git clone git@github.com:Ryder-Robots/rr-environment.git"
 
 su aaron -c "cd /home/aaron && \
