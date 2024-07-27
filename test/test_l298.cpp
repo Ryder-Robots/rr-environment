@@ -30,8 +30,8 @@ int main() {
     
     l298.setup(config);
 
-    // std::map<std::string, int> args = {};
-    // l298->run(args);
+    std::map<std::string, int> args = {};
+    l298.run(args);
     dlog << LINFO << "finished testing";
     return 0;
 }

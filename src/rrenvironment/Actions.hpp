@@ -2,8 +2,8 @@
  * Actions are defined below.
  **************************************************************************************/
 
-#ifndef COMPONENT_HPP
-#define COMPONENT_HPP
+#ifndef ACTIONS_HPP
+#define ACTIONS_HPP
 
 #include <map>
 #include <string>
@@ -11,7 +11,7 @@
 #include <dlib/threads.h>
 #include "rrenvironment/wiring.hpp"
 
-// dlib::logger dlog("L298"); 
+dlib::logger dlog_a(__FILE__); 
 
 namespace rrenv {
 
@@ -29,6 +29,7 @@ namespace rrenv {
         };
 
         void initialize(Wiring &wiring) {
+            dlog_a.set_level(dlib::LALL);
             _wiring = wiring;
         }
 
@@ -61,15 +62,16 @@ namespace rrenv {
             ENA("ENA"),
             ENB("ENB")
         {
-            // dlog << dlib::LINFO << "initialised L298 driver";
+            dlog_a << dlib::LINFO << "initialised L298 driver";
         }
 
         /*
          * Sets up the pin layout
          */
         void setup(std::map<std::string, int>  &config) {
+            dlog_a << dlib::LINFO << "setting up driver";
             try {
-                // dlog << dlib::LINFO << "configuring L298";
+                dlog_a << dlib::LINFO << "configuring L298";
                 _wiring.pin_mode(config[IN1], OUTPUT);
                 _in1 = config[IN1];
                 _wiring.pin_mode(config[IN2], OUTPUT);
@@ -84,9 +86,9 @@ namespace rrenv {
                 _wiring.pin_mode(config[ENB], PWM_OUTPUT);
                 _enb = config[ENB];
 
-                // dlog << dlib::LINFO << "finished configuring L298";
+                dlog_a << dlib::LINFO << "finished configuring L298";
             } catch (...) {
-                // dlog << dlib::LFATAL << "unable to configure motor";
+                dlog_a << dlib::LFATAL << "unable to configure motor";
                 throw "RR_MOTOR_EXCEPTION";
             }
         }
@@ -113,7 +115,7 @@ namespace rrenv {
                 _wiring.pmw_write(_enb, args[ENB]);
                 _mtx.unlock();
             } catch (...) {
-                // dlog << dlib::LERROR << "motor could not get sent a message";
+                dlog_a << dlib::LERROR << "motor could not get sent a message";
             }
         }
     private:

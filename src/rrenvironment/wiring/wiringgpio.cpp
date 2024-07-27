@@ -13,6 +13,7 @@ namespace rrenv {
 
         // configures to BDM pin number which will work for RF robot hardware.
          void WiringGpio::initilize() {
+            dlog_gpio.set_level(dlib::LALL);
             dlog_gpio << dlib::LINFO << "initializing using BDM (GPIO) pin layout";
             wiringPiSetupGpio();
          }
