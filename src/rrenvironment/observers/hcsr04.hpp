@@ -6,6 +6,9 @@
  * distanceMeters = 100*((travelTimeUsec/1000000.0)*340.29)/2; (disance in meters)
  ************************************************************************************/
 
+//TODO: Add thread handling and check that the run() routine can run in a thread.
+// there will be three of these running at once, all returning at different times!
+
 #ifndef _HCSR04_HPP_ 
 #define _HCSR04_HPP_
 
@@ -19,8 +22,8 @@ namespace rrenv {
         const std::string TRIG;
         const std::string ECHO;
 
-        // Just a large number,  more than resonable, which means that something is very far away.
-        const int HCSR_04_TIMEOUT = 10000000;
+        // Gicve a one second delay 
+        const int HCSR_04_TIMEOUT = 1000000;
 
         Hcsr04() : 
             TRIG("TRIG"),
@@ -53,7 +56,9 @@ namespace rrenv {
                 wiring.digital_write(_trig_pin, LOW);
             }
 
+            volatile long now = micros();
             volatile long startTime = micros();
+            while (wiring.digital_read(_echo_pin) == LOW && micros() - now < HCSR_04_TIMEOUT);
             while (wiring.digital_read(_echo_pin) == HIGH);
             volatile long endTime = micros();
 
