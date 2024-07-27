@@ -8,6 +8,7 @@
 #include "rrenvironment/rr_logger_hook.hpp"
 #include "rrenvironment/wiring.hpp"
 #include "rrenvironment/actions/l298.hpp"
+#include "rrenvironment/wiring.hpp"
 
 using namespace dlib;
 dlib::logger dlog("test_l298");
@@ -34,6 +35,25 @@ public:
     }
 };
 
+void shouldThrowException(rrenv::Wiring &wiring, rrenv::Actions &action) {
+    bool exceptionThrown = false;
+    std::map<std::string, int> args = {};
+    try {
+        action.run(args, wiring);
+    } catch (...) {
+        exceptionThrown = true;
+    }
+
+    if (!exceptionThrown) {
+        throw "FAILED TEST (should of thrown an exception)";
+    }
+}
+
+void shouldExecuteCorrectly(rrenv::Wiring &wiring, rrenv::Actions &action) {
+    std::map<std::string, int> args = {{"IN1", 1}, {"IN2", 0}, {"IN3", 1}, {"IN4", 0}, {"ENA", 350}, {"ENB", 350}};
+    action.run(args, wiring);
+}
+
 int main() {
     RrLoggerHook hook("/dev/stdout");
     set_all_logging_output_hooks(hook);
@@ -53,8 +73,10 @@ int main() {
     
     l298.setup(config, wiring);
 
-    std::map<std::string, int> args = {};
-    l298.run(args, wiring);
+    // Test one just through an exception.
+    shouldThrowException(wiring, l298);
+    shouldExecuteCorrectly(wiring, l298);
+
     dlog << LINFO << "finished testing";
     return 0;
 }

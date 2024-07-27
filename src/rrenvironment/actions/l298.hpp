@@ -2,8 +2,12 @@
  * L298 driver, H circuit driver for motors.
  *************************************************************************/
 
+#ifndef _L298_HPP
+#define _L298_HPP
+
 #include <map>
 #include <string>
+#include <exception>
 #include <wiringPi.h>
 #include <dlib/logger.h>
 #include <dlib/threads.h>
@@ -57,9 +61,9 @@ namespace rrenv {
                 _enb = config[ENB];
 
                 dlog_a << dlib::LINFO << "finished configuring L298";
-            } catch (...) {
-                dlog_a << dlib::LFATAL << "unable to configure motor";
-                throw "RR_MOTOR_EXCEPTION";
+            } catch (const exception &e) {
+                dlog_a << dlib::LFATAL << "unable to configure motor " << e.what();
+                throw runtime_error("could not set up motor");
             }
         }
 
@@ -67,11 +71,21 @@ namespace rrenv {
          * Send action to L298 motor.
          */
         void run(std::map<std::string, int> &args, Wiring &_wiring) {
-            try {
-                //TODO: check that values are within acceptable range.
-                for (auto it = args.begin(); it != args.end(); ++it) {
-                    
+   
+                // check to see igf all value have been set for running the motor.
+            const string keys[6] = {IN1, IN2, IN3, IN4, ENA, ENB};
+            for (auto k : keys) {
+                if (args.find(k) == args.end()) {
+                    dlog_a << dlib::LERROR << "missing critical key";
+                    throw runtime_error("missing critical key for L298");
                 }
+            }
+
+            try {
+                // If argument is set but it out of range,  this is not an error. If just means
+                // we set defaults minimum or max,
+                args[ENA] = setValidPwm(args[ENA]);
+                args[ENB] = setValidPwm(args[ENB]);
 
                 dlib::auto_mutex lock(_mtx);
                 _wiring.digital_write(_in1, args[IN1]);
@@ -84,8 +98,8 @@ namespace rrenv {
                 _wiring.pmw_write(_ena, args[ENA]);
                 _wiring.pmw_write(_enb, args[ENB]);
                 _mtx.unlock();
-            } catch (...) {
-                dlog_a << dlib::LERROR << "motor could not get sent a message";
+            } catch (const exception& e) {
+                dlog_a << dlib::LERROR << "could not send l298 message :" << e.what();
             }
         }
     private:
@@ -98,5 +112,18 @@ namespace rrenv {
         int _enb;
 
         dlib::mutex _mtx;
+
+        int setValidPwm(int pwmValue) {
+            int result = pwmValue;
+            if (pwmValue < MIN_PWM_VAL) {
+                result = MIN_PWM_VAL;
+            }
+            if (pwmValue > MAX_PWM_VAL) {
+                    result = MAX_PWM_VAL;
+            }
+            return result;
+        }
     };
 }
+
+#endif
