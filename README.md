@@ -5,7 +5,8 @@ drivers for raspberry 4B
 
 ```
 docker build -t rrobot .
-docker run --rm -it rrobot 
+docker run --rm -it -p 22:22 rrobot 
+ssh aaron@192.168.1.13
 ```
 
 ## Quick Build

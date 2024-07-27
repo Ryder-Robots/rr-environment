@@ -2,11 +2,11 @@
 
 PASSWORD=${1}
 
-apt-get install -y git sudo cmake gcc g++ \
+apt-get install -y git sudo openssh-server cmake gcc g++ \
   libopenblas-dev liblapack-dev ffmpeg pkg-config \
   libavdevice-dev libavfilter-dev libavformat-dev \
   libavcodec-dev libswresample-dev libswscale-dev \
-  libavutil-dev
+  libavutil-dev 
 
 useradd -p ${PASSWORD} -m aaron
 usermod -aG sudo aaron
