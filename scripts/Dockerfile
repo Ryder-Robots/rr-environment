@@ -9,7 +9,7 @@ RUN apt-get update && apt-get upgrade
 
 COPY setup.bash /tmp
 COPY ssh/config /tmp/config
-COPY ${RSA_LOCATION}/id_rsa /tmp/id_rsa
+COPY id_rsa /tmp/id_rsa
 COPY files/* /tmp/
 
 RUN chmod +x /tmp/setup.bash
