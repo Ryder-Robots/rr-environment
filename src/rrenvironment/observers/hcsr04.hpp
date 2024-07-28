@@ -43,7 +43,7 @@ namespace rrenv {
          * 
          * This cuts down on wires, and reduces the complexity by making it hardware driven.
          ************************************************************************************************/
-        void run(std::map<std::string, int> &args, std::map<std::string, long> rv, Wiring &wiring) {
+        void run(std::map<std::string, int> &args, std::map<std::string, long> &rv, Wiring &wiring) {
 
             dlib::auto_mutex lock(_mtx);
             // Give the trigger some time to exeucte (around 10 milliseconds)
