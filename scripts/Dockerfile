@@ -2,14 +2,14 @@
 
 FROM dtcooper/raspberrypi-os:bookworm
 
-ENV PASSWORD=CHANGETHIS
-ENV RSA_LOCATION=/Users/newuser/.ssh
+ARG PASSWORD=CHANGETHIS
 
 RUN apt-get update && apt-get upgrade
 
 COPY setup.bash /tmp
 COPY ssh/config /tmp/config
 COPY id_rsa /tmp/id_rsa
+COPY id_rsa.pub /tmp/id_rsa.pub
 COPY files/* /tmp/
 
 RUN chmod +x /tmp/setup.bash
