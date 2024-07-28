@@ -31,6 +31,23 @@ public:
     void pmw_write(int pin, int value) {
         dlog << dlib::LINFO << "pin:" << pin << " value:" << value;
     }
+
+    long digital_read(int pin) {
+        long echo = HIGH;
+
+        // add a delay so we can skew the time, and check it.
+        delay(1);
+        if (_counter > 50) {
+            dlog << LINFO << "count called at iteration" + _counter;
+            echo = LOW;
+        }
+        _counter++;
+
+        return echo;
+    }
+
+private:
+    int _counter = 0;
 };
 
 void shouldBypassTrigger(rrenv::Wiring &wiring, rrenv::Observers &observer) {
@@ -40,6 +57,7 @@ void shouldBypassTrigger(rrenv::Wiring &wiring, rrenv::Observers &observer) {
      observer.run(args, result, wiring);
 
      dlog << LINFO << "startTime:" << result["startTime"];
+     dlog << LINFO << "endTime:" << result["endTime"];
 }
 
 int main() {
