@@ -3,3 +3,4 @@ _builds/**
 _install/**
 .vscode/**
 scripts/id_rsa
+dlib/**

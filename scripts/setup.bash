@@ -2,7 +2,7 @@
 
 PASSWORD=${1}
 
-apt-get install -y git sudo openssh-server cmake gcc g++ \
+apt-get install -y git sudo openssh-server cmake gcc g++ gdb \
   libopenblas-dev liblapack-dev ffmpeg pkg-config \
   libavdevice-dev libavfilter-dev libavformat-dev \
   libavcodec-dev libswresample-dev libswscale-dev \
@@ -21,7 +21,7 @@ su aaron -c "mkdir /home/aaron/.ssh"
 su aaron -c "cp /tmp/config /home/aaron/.ssh/"
 su aaron -c "cp id_rsa  /home/aaron/.ssh/"
 su aaron -c "chmod -R 700  /home/aaron/.ssh"
-
+su aaron -c "git config --global user.name 'Aaron Spiteri' && git config --global user.email 'azzmosphere@gmail.com.au'"
 su aaron -c "cd /home/aaron && git clone git@github.com:Ryder-Robots/rr-environment.git"
 
 su aaron -c "cd /home/aaron && \
