@@ -1,8 +1,9 @@
 #!/bin/bash
+set -e
 
 PASSWORD=${1}
 
-apt-get install -y git sudo openssh-server cmake gcc g++ gdb \
+apt-get install -y git sudo openssh-server cmake gcc g++ gdb bzip2 \
   libopenblas-dev liblapack-dev ffmpeg pkg-config \
   libavdevice-dev libavfilter-dev libavformat-dev \
   libavcodec-dev libswresample-dev libswscale-dev \
@@ -29,3 +30,8 @@ su aaron -c "cd /home/aaron && \
   git clone https://github.com/davisking/dlib.git &&
   cd dlib && mkdir build; cd build; cmake .. ; cmake --build ."
 cd /home/aaron/dlib/build && cmake --install .
+
+# Setup VSCODE extensions
+su aaron -c "mkdir -p /home/aaron/.vscode-server/extensions"
+su aaron -c "cp /tmp/extensions.tar.bz2 /home/aaron/.vscode-server/extensions"
+su aaron -c "cd /home/aaron/.vscode-server/extensions && tar -zxvvf ./extensions.tar.bz2"

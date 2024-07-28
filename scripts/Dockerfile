@@ -11,6 +11,7 @@ COPY ssh/config /tmp/config
 COPY id_rsa /tmp/id_rsa
 COPY id_rsa.pub /tmp/id_rsa.pub
 COPY files/* /tmp/
+COPY files/vscode-server/extensions.tar.bz2 /tmp
 
 RUN chmod +x /tmp/setup.bash
 RUN /tmp/setup.bash ${PASSWORD}
