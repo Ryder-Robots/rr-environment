@@ -2,5 +2,7 @@ build/**
 _builds/**
 _install/**
 .vscode/**
+scripts/id_rsa.pub
 scripts/id_rsa
 dlib/**
+
