@@ -2,3 +2,4 @@ build/**
 _builds/**
 _install/**
 .vscode/**
+scripts/id_rsa
