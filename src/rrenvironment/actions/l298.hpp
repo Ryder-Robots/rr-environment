@@ -97,10 +97,10 @@ namespace rrenv {
                 // range is 0 to 1024
                 _wiring.pmw_write(_ena, args[ENA]);
                 _wiring.pmw_write(_enb, args[ENB]);
-                _mtx.unlock();
             } catch (const exception& e) {
                 dlog_a << dlib::LERROR << "could not send l298 message :" << e.what();
             }
+            _mtx.unlock();
         }
     private:
         int _in1;

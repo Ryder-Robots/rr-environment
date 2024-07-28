@@ -6,9 +6,6 @@
  * distanceMeters = 100*((travelTimeUsec/1000000.0)*340.29)/2; (disance in meters)
  ************************************************************************************/
 
-//TODO: Add thread handling and check that the run() routine can run in a thread.
-// there will be three of these running at once, all returning at different times!
-
 #ifndef _HCSR04_HPP_ 
 #define _HCSR04_HPP_
 
@@ -46,8 +43,9 @@ namespace rrenv {
          * 
          * This cuts down on wires, and reduces the complexity by making it hardware driven.
          ************************************************************************************************/
-        std::map<std::string, long> run(std::map<std::string, int> &args, Wiring &wiring) {
+        void run(std::map<std::string, int> &args, std::map<std::string, long> rv, Wiring &wiring) {
 
+            dlib::auto_mutex lock(_mtx);
             // Give the trigger some time to exeucte (around 10 milliseconds)
             if (args[TRIG] != 0) {
                 dlog_b << dlib::LINFO << "sent trigger";
@@ -65,12 +63,14 @@ namespace rrenv {
             // Dont bother calculating the difference, do it in the policy. Because of the delay above
             // which could skew the result. Want to take the start tie only from the sensor(s) that has
             // trig > 1.
-            std::map<std::string, long> rv = {{"start_time", startTime}, {"end_time", endTime}};
-            return rv;
+            rv["startTime"] = startTime;
+            rv["endTime"] =  endTime;
+            _mtx.unlock();
         }
     private:
         int _trig_pin = 0;
         int _echo_pin = 0;
+        dlib::mutex _mtx;
     };
 }
 
