@@ -34,6 +34,9 @@ namespace rrenv {
         void setup(std::map<std::string, int>  &config, Wiring &wiring) {
             wiring.pin_mode(config[TRIG], OUTPUT);
             wiring.pin_mode(config[ECHO], INPUT);
+
+            wiring.pull_up_down_ctl(config[TRIG], PUD_DOWN);
+            wiring.pull_up_down_ctl(config[ECHO], PUD_DOWN);
             dlog_b << dlib::LINFO << "HCSR04 configured for input";
         }
 
@@ -51,7 +54,7 @@ namespace rrenv {
                 dlog_b << dlib::LINFO << "sent trigger";
                 wiring.digital_write(_trig_pin, HIGH);
                 delay(10);
-                wiring.digital_write(_trig_pin, LOW);
+                wiring.pull_up_down_ctl(_trig_pin, PUD_DOWN);
             }
 
             volatile long now = micros();
@@ -59,6 +62,7 @@ namespace rrenv {
             while (wiring.digital_read(_echo_pin) == LOW && micros() - now < HCSR_04_TIMEOUT);
             while (wiring.digital_read(_echo_pin) == HIGH);
             volatile long endTime = micros();
+            wiring.pull_up_down_ctl(_echo_pin, PUD_DOWN);
 
             // Dont bother calculating the difference, do it in the policy. Because of the delay above
             // which could skew the result. Want to take the start tie only from the sensor(s) that has
