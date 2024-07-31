@@ -5,4 +5,4 @@ _install/**
 scripts/id_rsa.pub
 scripts/id_rsa
 dlib/**
-
+vscode

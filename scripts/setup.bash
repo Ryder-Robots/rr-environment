@@ -8,7 +8,7 @@ apt-get install -y git sudo openssh-server cmake gcc g++ gdb bzip2 \
   libopenblas-dev liblapack-dev ffmpeg pkg-config \
   libavdevice-dev libavfilter-dev libavformat-dev \
   libavcodec-dev libswresample-dev libswscale-dev \
-  libavutil-dev gpg code
+  libavutil-dev gpg code net-tools
 
 apt-get install -y /tmp/wiringpi_3.6_arm64.deb
 
@@ -35,6 +35,8 @@ su ${USERNAME} -c "cd /home/aaron && \
 cd /home/${USERNAME}/dlib/build && cmake --install .
 
 # Setup VSCODE extensions
+VS_CODE_IGNORE_EXT=1
+if VS_CODE_IGNORE_EXT -ne 1; then
 for ex in crugthew.c-cpp-linter \
   franneck94.c-cpp-runner \
   ms-vscode.cmake-tools \
@@ -45,4 +47,5 @@ for ex in crugthew.c-cpp-linter \
   vadimcn.vscode-lldb; do
   su ${USERNAME} -c "code  --install-extension ${ex}"
 done
+fi
 
