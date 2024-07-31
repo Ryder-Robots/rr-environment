@@ -35,7 +35,9 @@ namespace rrenv {
             wiring.pin_mode(config[TRIG], OUTPUT);
             wiring.pin_mode(config[ECHO], INPUT);
 
-            wiring.pull_up_down_ctl(config[TRIG], PUD_DOWN);
+            if (config[TRIG] != 0) {
+                wiring.pull_up_down_ctl(config[TRIG], PUD_DOWN);
+            }
             wiring.pull_up_down_ctl(config[ECHO], PUD_DOWN);
             dlog_b << dlib::LINFO << "HCSR04 configured for input";
         }
