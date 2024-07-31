@@ -5,8 +5,10 @@ drivers for raspberry 4B
 
 ```
 docker build -t rrobot .
-docker run --rm -it -p 22:22 rrobot 
-ssh aaron@192.168.1.13
+docker volume create rr-environment
+
+ docker run --rm -d --name=rr-environment --mount source=rr-environment,target=/opt/share/rr-environment -p 22:22 rrobot:latest
+
 ```
 
 ## Quick Build
