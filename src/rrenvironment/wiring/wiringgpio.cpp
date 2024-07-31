@@ -11,7 +11,6 @@
 dlib::logger dlog_gpio("WiringGpio");
 
 namespace rrenv {
-
         // configures to BDM pin number which will work for RF robot hardware.
          void WiringGpio::initilize() {
             dlog_gpio.set_level(dlib::LALL);

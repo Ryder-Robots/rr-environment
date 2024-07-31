@@ -25,6 +25,10 @@ namespace rrenv {
         void pmw_write(int pin, int value);
 
         long digital_read(int pin);
+
+        void pull_up_down_ctl(int pin, int pun) {
+            pullUpDnControl(pin, pun);
+        }
     };
 }
 

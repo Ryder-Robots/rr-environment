@@ -9,8 +9,6 @@
 #include <dlib/logger.h>
 #include "rrenvironment/wiring.hpp"
 
-dlib::logger dlog_a("_ACTIONS_"); 
-
 namespace rrenv {
 
     class Actions {

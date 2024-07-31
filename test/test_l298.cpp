@@ -10,7 +10,6 @@
 #include <rrenvironment/actions/l298.hpp>
 
 using namespace dlib;
-dlib::logger dlog("test_l298");
 
 // Bind to mock Wiring pi library, note you do not have to inilise wiring to use this library.
 class WiringPiMock : public rrenv::Wiring {

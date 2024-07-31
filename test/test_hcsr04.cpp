@@ -9,7 +9,6 @@
 #include <rrenvironment/observers/hcsr04.hpp>
 
 using namespace dlib;
-logger dlog("test_hcsr04");
 
 // May neeed to do a little more to this get some better testing.
 class WiringPiMock : public rrenv::Wiring {

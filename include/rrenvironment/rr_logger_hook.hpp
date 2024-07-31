@@ -8,13 +8,17 @@
 #define RR_LOGGER_HOOK_HPP_
 
 #include <nlohmann/json.hpp>
+#include <dlib/logger.h>
 
 using namespace dlib;
 using namespace std;
 
+dlib::logger dlog("rr-environment");
+
 class RrLoggerHook
 {
 public:
+
     RrLoggerHook(string fname) 
     {
         // Append to log file

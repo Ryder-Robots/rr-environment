@@ -11,6 +11,7 @@
 namespace rrenv {
     class Wiring {
     public: 
+
         virtual void initilize() {}
 
         virtual void pin_mode(int pin, int mode) {}
@@ -20,6 +21,8 @@ namespace rrenv {
         virtual void pmw_write(int pin, int value) {}
    
         virtual long digital_read(int pin) {return 0;}
+
+        virtual void pull_up_down_ctl(int pin, int pun) {}
     };
 }
 

@@ -19,6 +19,7 @@ set(rrenvironment_SOURCES
     src/rrenvironment/wiring.hpp
     src/rrenvironment/wiring/wiringgpio.cpp
     src/rrenvironment/actions/l298.hpp
+    src/rrenvironment/actions/l298.cpp
     src/rrenvironment/observers.hpp
     src/rrenvironment/observers/hcsr04.hpp
 )
