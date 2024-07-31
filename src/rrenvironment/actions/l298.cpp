@@ -19,7 +19,21 @@
 
 #include <rrenvironment/actions/l298.hpp>
 
+dlib::logger dlog_a("rr-environment");
+
 namespace rrenv {
+
+    L298::L298() : 
+        IN1("IN1"),
+        IN2("IN2"),
+        IN3("IN3"),
+        IN4("IN4"),
+        ENA("ENA"),
+        ENB("ENB")
+    {
+        dlog_a << dlib::LINFO << "initialised L298 driver";
+    }
+
     /*!
      * setup pins and perform pulldowns.
      *
@@ -27,9 +41,9 @@ namespace rrenv {
      * @param wiring class to use. 
      */
     void L298::setup(std::map<std::string, int>  &config, Wiring &_wiring) {
-        dlog << dlib::LINFO << "setting up driver";
+        dlog_a << dlib::LINFO << "setting up driver";
         try {
-            dlog << dlib::LINFO << "configuring L298";
+            dlog_a << dlib::LINFO << "configuring L298";
             _wiring.pin_mode(config[IN1], OUTPUT);
             _in1 = config[IN1];
             _wiring.pin_mode(config[IN2], OUTPUT);
@@ -49,9 +63,9 @@ namespace rrenv {
                 _wiring.pull_up_down_ctl(i, PUD_DOWN);
             }
             
-            dlog << dlib::LINFO << "finished configuring L298";
+            dlog_a << dlib::LINFO << "finished configuring L298";
         } catch (const exception &e) {
-            dlog << dlib::LFATAL << "unable to configure motor " << e.what();
+            dlog_a << dlib::LFATAL << "unable to configure motor " << e.what();
             throw runtime_error("could not set up motor");
         }
     }
@@ -68,7 +82,7 @@ namespace rrenv {
         const string keys[6] = {IN1, IN2, IN3, IN4, ENA, ENB};
         for (auto k : keys) {
             if (args.find(k) == args.end()) {
-                dlog << dlib::LERROR << "missing critical key";
+                dlog_a << dlib::LERROR << "missing critical key";
                 throw runtime_error("missing critical key for L298");
             }
         }
@@ -90,7 +104,7 @@ namespace rrenv {
             _wiring.pmw_write(_ena, args[ENA]);
             _wiring.pmw_write(_enb, args[ENB]);
         } catch (const exception& e) {
-            dlog << dlib::LERROR << "could not send l298 message :" << e.what();
+            dlog_a << dlib::LERROR << "could not send l298 message :" << e.what();
         }
         _mtx.unlock();
     }

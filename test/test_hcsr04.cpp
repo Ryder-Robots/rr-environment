@@ -10,6 +10,8 @@
 
 using namespace dlib;
 
+dlib::logger dlog("rr-environment");
+
 // May neeed to do a little more to this get some better testing.
 class WiringPiMock : public rrenv::Wiring {
 public: 

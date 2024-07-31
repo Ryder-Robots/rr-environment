@@ -17,6 +17,7 @@ namespace rrenv {
     class L298 : public Actions {
 
     public:
+        L298();
 
         const std::string IN1;
         const std::string IN2;
@@ -27,17 +28,6 @@ namespace rrenv {
 
         static const int MIN_PWM_VAL = 0;
         static const int MAX_PWM_VAL = 1024;
-
-        L298() : 
-            IN1("IN1"),
-            IN2("IN2"),
-            IN3("IN3"),
-            IN4("IN4"),
-            ENA("ENA"),
-            ENB("ENB")
-        {
-            dlog << dlib::LINFO << "initialised L298 driver";
-        }
 
         /*
          * Sets up the pin layout

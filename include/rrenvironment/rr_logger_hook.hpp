@@ -13,8 +13,6 @@
 using namespace dlib;
 using namespace std;
 
-dlib::logger dlog("rr-environment");
-
 class RrLoggerHook
 {
 public:

@@ -11,6 +11,8 @@
 
 using namespace dlib;
 
+dlib::logger dlog("rr-environment");
+
 // Bind to mock Wiring pi library, note you do not have to inilise wiring to use this library.
 class WiringPiMock : public rrenv::Wiring {
 public: 
