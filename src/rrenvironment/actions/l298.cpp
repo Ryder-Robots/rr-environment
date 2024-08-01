@@ -78,6 +78,8 @@ namespace rrenv {
      */
     void L298::run(std::map<std::string, int> &args, Wiring &_wiring) {
    
+        dlog_a << LINFO << "recieved command for motor";
+        
         // check to see igf all value have been set for running the motor.
         const string keys[6] = {IN1, IN2, IN3, IN4, ENA, ENB};
         for (auto k : keys) {

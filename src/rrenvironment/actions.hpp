@@ -13,12 +13,18 @@ namespace rrenv {
 
     class Actions {
     public:
-        virtual void setup(std::map<std::string, int>  &config, Wiring &wiring) {}
+        virtual void setup(std::map<std::string, int>  &config, Wiring &wiring) {
+            dlib::logger dlob_obs("rr-environment");
+            dlob_obs << dlib::LWARN << "executing vitural Actions.setup() function,  should this be an implementation?";
+        }
 
         /**
          * run is executed within the thread. Args a list of values that used when running.
          */
-        virtual void run(std::map<std::string, int> &args, Wiring &wiring) {}
+        virtual void run(std::map<std::string, int> &args, Wiring &wiring) {
+            dlib::logger dlob_obs("rr-environment");
+            dlob_obs << dlib::LWARN << "executing vitural Actions.run() function,  should this be an implementation?";
+        }
     }; 
 }
 #endif
