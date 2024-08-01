@@ -10,8 +10,6 @@
 #include <dlib/logger.h>
 #include <rrenvironment/wiring.hpp>
 
-dlib::logger dlog_b("_OBSERVERS_HPP_");
-
 namespace rrenv {
 
     class Observers {

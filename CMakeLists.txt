@@ -22,6 +22,7 @@ set(rrenvironment_SOURCES
     src/rrenvironment/actions/l298.cpp
     src/rrenvironment/observers.hpp
     src/rrenvironment/observers/hcsr04.hpp
+    src/rrenvironment/observers/hcsr04.cpp
 )
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "wiringpi, wiringpi (>= 3.2)")
 set(PUBLIC_HEADER include/rr_logger_hook.hpp)
