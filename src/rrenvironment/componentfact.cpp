@@ -66,4 +66,8 @@ namespace rrenv {
     Actions ComponentsFactory::get_action(string act) {
         return Actions(*_actions[act]); 
     }
+
+    Observers ComponentsFactory::get_observer(string obs) {
+        return Observers(*_observers[obs]); 
+    }
 }

@@ -31,7 +31,7 @@ namespace rrenv {
 
         Actions get_action(string act);
 
-        Observers& get_observer(string obs);
+        Observers get_observer(string obs);
 
     private:
         std::map<string, Observers*> _observers;
