@@ -4,6 +4,7 @@
 #include <rrenvironment/wiring.hpp>
 #include <rrenvironment/rr_logger_hook.hpp>
 #include <rrenvironment/componentfact.hpp>
+#include <rrenvironment/wiring/wiringgpio.hpp>
 
 using namespace dlib;
 
@@ -74,7 +75,9 @@ int main() {
 
     // std::map<string, Actions> actions = {};
     // std::map<string, Observers> observers = {};
-    Wiring mock = WiringPiMock();
+    //Wiring mock = WiringPiMock();
+    WiringGpio mock = WiringGpio();
+    mock.initilize();
 
     fact.createAction(RRC_L298, "motorA", configA, mock);
     fact.createAction(RRC_L298, "motorB", configB, mock);
