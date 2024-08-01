@@ -51,6 +51,5 @@ done
 fi
 
 su ${USERNAME} -c "mkdir -p /home/aaron/.vscode-server/extensions"
-su ${USERNAME} -c "cp   /home/aaron/rr-environment/vscode/extensions/* /home/aaron/.vscode-server/extensions/"
+su ${USERNAME} -c "cp -R  /home/aaron/rr-environment/vscode/extensions/* /home/aaron/.vscode-server/extensions/"
 
-# Add launch configuration in.
