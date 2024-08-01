@@ -36,6 +36,7 @@ namespace rrenv {
         }
 
         // perform configuration.
+        observers[obs].setup(config, wiring);
     }
 
     void ComponentsFactory::createAction(
