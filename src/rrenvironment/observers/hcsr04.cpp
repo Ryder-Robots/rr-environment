@@ -3,6 +3,7 @@
  * then recieve it back as trigger. It will then measure the time it took in milliseconds and return this
  * value within the rv map of the run() routine.
  * 
+ * TODO: manage the state changes through interupts not using while loops. (too processor intensive.)
  */
 
 #include <rrenvironment/observers/hcsr04.hpp>
