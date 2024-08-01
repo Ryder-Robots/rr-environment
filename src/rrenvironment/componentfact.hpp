@@ -29,9 +29,9 @@ namespace rrenv {
 
         void createAction(const int classType, string act, std::map<string, int> &config, Wiring& wiring);
 
-        Actions get_action(string act);
+        Actions* getAction(string act);
 
-        Observers get_observer(string obs);
+        Observers* getObserver(string obs);
 
     private:
         std::map<string, Observers*> _observers;

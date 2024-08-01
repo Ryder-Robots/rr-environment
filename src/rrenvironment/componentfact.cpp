@@ -7,7 +7,7 @@
 
 using namespace std;
 
-dlib::logger dlog_c("COMPONENT_FACTORY");
+dlib::logger dlog_c("rr-environment");
 
 namespace rrenv {
 
@@ -22,7 +22,7 @@ namespace rrenv {
         switch (classType)
         {
             case RRC_HCSR04:
-                _observers[obs] = new Hcsr04();
+                this->_observers.insert(std::make_pair(obs, new Hcsr04()));
                 break;
             default: 
                 dlog_c  << dlib::LFATAL << "unknown class";
@@ -30,6 +30,8 @@ namespace rrenv {
                 break;
         }
         _observers[obs]->setup(config, wiring);
+
+        dlog_c << LDEBUG << "observer map now has " << _observers.size();
     }
 
     /*!
@@ -63,11 +65,17 @@ namespace rrenv {
         _actions[act]->setup(config, wiring);
     }
 
-    Actions ComponentsFactory::get_action(string act) {
-        return Actions(*_actions[act]); 
+    //TODO: wrap these into a try catch statement, to avoid breaking stuff.
+    Actions* ComponentsFactory::getAction(string act) {
+        return _actions[act]; 
     }
 
-    Observers ComponentsFactory::get_observer(string obs) {
-        return Observers(*_observers[obs]); 
+    Observers* ComponentsFactory::getObserver(string obs) {
+
+        dlog_c << LDEBUG << "observer map now has " << _observers.size();
+
+        Observers* o = _observers[obs];
+        dlog_c << LDEBUG << "observer found";
+        return o;
     }
 }
