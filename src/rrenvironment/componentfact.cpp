@@ -31,6 +31,7 @@ namespace rrenv {
             observers[obs] = Hcsr04();
             break;
         default: 
+            dlog_c << dlib::LFATAL << "unknown class";
             throw runtime_error("unknown classType");
             break;
         }
@@ -39,6 +40,15 @@ namespace rrenv {
         observers[obs].setup(config, wiring);
     }
 
+    /*!
+    * Add action to actions map.
+    *
+    * @param class type to add
+    * @param reference name
+    * @param configuration
+    * @param actions map
+    * @param wiring class
+    */
     void ComponentsFactory::createAction(
         const int classType, 
         string act, 
@@ -53,6 +63,7 @@ namespace rrenv {
             actions[act] = L298();
             break;
         default: 
+            dlog_c  << dlib::LFATAL << "unknown class";
             throw runtime_error("unknown classType");
             break;
         }
