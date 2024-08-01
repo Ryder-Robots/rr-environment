@@ -27,7 +27,8 @@ su ${USERNAME} -c "cp /tmp/id_rsa  /home/aaron/.ssh/"
 su ${USERNAME} -c "cp /tmp/id_rsa.pub /home/aaron/.ssh/"
 su ${USERNAME} -c "chmod -R 700  /home/aaron/.ssh"
 su ${USERNAME} -c "git config --global user.name 'Aaron Spiteri' && git config --global user.email 'azzmosphere@gmail.com.au'"
-su ${USERNAME} -c "cd /home/aaron && git clone git@github.com:Ryder-Robots/rr-environment.git"
+# su ${USERNAME} -c "cd /home/aaron && git clone git@github.com:Ryder-Robots/rr-environment.git"
+su ${USERNAME} -c "ln -s  /opt/share/rr-environment /home/aaron/rr-environment"
 
 su ${USERNAME} -c "cd /home/aaron && \
   git clone https://github.com/davisking/dlib.git &&
@@ -49,3 +50,7 @@ for ex in crugthew.c-cpp-linter \
 done
 fi
 
+su ${USERNAME} -c "mkdir -p /home/aaron/.vscode-server/extensions"
+su ${USERNAME} -c "cp   /home/aaron/rr-environment/vscode/extensions/* /home/aaron/.vscode-server/extensions/"
+
+# Add launch configuration in.
