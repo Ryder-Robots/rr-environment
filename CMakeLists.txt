@@ -71,3 +71,11 @@ target_link_libraries(test_hcsr04 dlib)
 add_test(NAME test_hcsr04
          COMMAND test_hcsr04)
 
+
+include_directories(src)
+add_executable(test_component_fact test/test_component_fact.cpp)
+target_link_libraries(test_component_fact rrenvironment)
+target_link_libraries(test_component_fact dlib)
+add_test(NAME test_component_fact
+        COMMAND test_component_fact)
+
