@@ -43,8 +43,21 @@ namespace rrenv {
         const int classType, 
         string act, 
         std::map<string, int> &config, 
-        std::map<string, Observers>& actions,
+        std::map<string, Actions>& actions,
         Wiring& wiring
     ) {   
+
+        switch (classType)
+        {
+        case RRC_L298:
+            actions[act] = L298();
+            break;
+        default: 
+            throw runtime_error("unknown classType");
+            break;
+        }
+
+        // perform configuration.
+        actions[act].setup(config, wiring);
     }
 }

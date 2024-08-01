@@ -26,7 +26,7 @@ namespace rrenv {
 
         void createObserver(const int classType, string obs, std::map<string, int> &config, std::map<string, Observers>& observers, Wiring& wiring);
 
-        void createAction(const int classType, string act, std::map<string, int> &config, std::map<string, Observers>& actions, Wiring& wiring);
+        void createAction(const int classType, string act, std::map<string, int> &config, std::map<string, Actions>& actions, Wiring& wiring);
     };
 }
 
