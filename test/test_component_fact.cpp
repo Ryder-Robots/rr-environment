@@ -82,11 +82,9 @@ int main() {
     fact.createObserver(RRC_HCSR04, "ultraSonic2", ultraSonic2, mock);
     fact.createObserver(RRC_HCSR04, "ultraSonic3", ultraSonic3, mock);
 
-    std::map<string, int> args = {};
+    std::map<string, int> args = {{"TRIG", 1}};
     std::map<string, long> result = {};
     fact.getObserver("ultraSonic1")->run(args, result, mock);
-
-    // actions["motorA"].run(args, mock);
 
     dlog << LINFO << "finish testing";
     return 0;

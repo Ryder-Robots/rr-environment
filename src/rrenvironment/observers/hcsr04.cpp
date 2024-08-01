@@ -61,6 +61,8 @@ namespace rrenv {
         // trig > 1.
         rv["startTime"] = startTime;
         rv["endTime"] =  endTime;
+
+        dlog_b << dlib::LINFO << "startTime: " << startTime << " endTime: " << endTime;
         _mtx.unlock();
     }
 }
