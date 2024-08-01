@@ -9,7 +9,7 @@
 #include <rrenvironment/observers/hcsr04.hpp>
 
 
-dlib::logger dlog_b("HCSR-04");
+dlib::logger dlog_b("rr-environment");
 
 namespace rrenv {
     Hcsr04::Hcsr04() : 
