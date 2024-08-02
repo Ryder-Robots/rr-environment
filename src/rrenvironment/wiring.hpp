@@ -36,6 +36,8 @@ namespace rrenv {
     class Wiring {
     public: 
 
+        virtual ~Wiring() = default;
+
         virtual void initilize() {}
 
         virtual void pin_mode(int pin, int mode) {}
