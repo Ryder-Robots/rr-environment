@@ -35,7 +35,7 @@ namespace rrenv {
 
     class Wiring {
     public: 
-
+        
         virtual ~Wiring() = default;
 
         virtual void initilize() {}
@@ -49,6 +49,25 @@ namespace rrenv {
         virtual long digital_read(int pin) {return 0;}
 
         virtual void pull_up_down_ctl(int pin, int pun) {}
+
+        /****************************************
+         * Used to set an ISR on a bit when the edge moves in a given direction.
+         * CAVEAT: Ensure that the PIN is either pulled down, or pulled up first.
+         * This will depend on the direction of the read,  for instance if you
+         * want to trigger when the pin = HIGH then, pull down. 
+         * 
+         * bitRegister should be a unique bit mask, that can trigger.  For example
+         * set bit mask to b0001 then use the mask to tell later if trigger.
+         * 
+         * bitRegister should be defined in binary,  and unless it's your intention they
+         * should be unique.
+         */
+        virtual void isr(int pin, int bitRegister, int mask, std::function<void()> callback) {}
+
+        // check if pin has triggered. if you set an ISR of b0001 then if checkIsr(b0001) returns
+        // true, the pin has been triggered.
+        virtual bool checkIsr(int bitRegister) {return false;}
+
 
     };
 }
