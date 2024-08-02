@@ -22,8 +22,8 @@ rm -fR build && cmake -S . -B build && cmake --build build
 ```
 git clone https://github.com/davisking/dlib.git
 cd dlib
-rm -fR build;mkdir build; cd build; cmake .. ; cmake --build .
-sudo cmake --install .
+rm -fR build;mkdir build; cd build; cmake -DCMAKE_INSTALL_PREFIX=${HOME}/tmp/_dlib/ .. ; cmake --build .
+cmake --install . --strip
 ```
 
 ## Create library
