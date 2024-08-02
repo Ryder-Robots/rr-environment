@@ -51,8 +51,8 @@ namespace rrenv {
 
         volatile long now = micros();
         volatile long startTime = micros();
-        while (wiring.digital_read(_echo_pin) == LOW && micros() - now < HCSR_04_TIMEOUT);
-        while (wiring.digital_read(_echo_pin) == HIGH);
+        // while (wiring.digital_read(_echo_pin) == LOW && micros() - now < HCSR_04_TIMEOUT);
+        //while (wiring.digital_read(_echo_pin) == HIGH);
         volatile long endTime = micros();
         wiring.pull_up_down_ctl(_echo_pin, PUD_DOWN);
 

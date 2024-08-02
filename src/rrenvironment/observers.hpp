@@ -12,11 +12,10 @@
 #include <rrenvironment/wiring.hpp>
 
 namespace rrenv {
-
-   
-
     class Observers {
     public:
+        virtual ~Observers() = default;
+
         virtual void setup(std::map<std::string, int>  &config, Wiring &wiring) {
             dlib::logger dlob_obs("rr-environment");
             dlob_obs << dlib::LWARN << "executing vitural Observers.setup() function,  should this be an implementation?";

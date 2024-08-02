@@ -16,19 +16,17 @@ namespace rrenv {
     public: 
          
          // configures to BDM pin number which will work for RF robot hardware.
-        void initilize();
+        void initilize() override;
 
-        void pin_mode(int pin, int mode);
+        void pin_mode(int pin, int mode) override;
 
-        void digital_write(int pin, int value);
+        void digital_write(int pin, int value) override;
 
-        void pmw_write(int pin, int value);
+        void pmw_write(int pin, int value) override;
 
-        long digital_read(int pin);
+        long digital_read(int pin) override;
 
-        void pull_up_down_ctl(int pin, int pun) {
-            pullUpDnControl(pin, pun);
-        }
+        void pull_up_down_ctl(int pin, int pun) override;
     };
 }
 

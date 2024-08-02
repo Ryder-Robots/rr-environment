@@ -8,10 +8,6 @@
 #ifndef _WIRING_HPP_
 #define _WIRING_HPP_
 
-
-
-
-
 namespace rrenv {
 
     // GPIO ports that can be used.
