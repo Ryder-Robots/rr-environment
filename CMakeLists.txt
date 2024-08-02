@@ -22,6 +22,9 @@ set(rrenvironment_SOURCES
     src/rrenvironment/actions/l298.cpp
     src/rrenvironment/observers.hpp
     src/rrenvironment/observers/hcsr04.hpp
+    src/rrenvironment/observers/hcsr04.cpp
+    src/rrenvironment/componentfact.hpp
+    src/rrenvironment/componentfact.cpp
 )
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "wiringpi, wiringpi (>= 3.2)")
 set(PUBLIC_HEADER include/rr_logger_hook.hpp)
@@ -67,4 +70,12 @@ target_link_libraries(test_hcsr04 rrenvironment)
 target_link_libraries(test_hcsr04 dlib)
 add_test(NAME test_hcsr04
          COMMAND test_hcsr04)
+
+
+include_directories(src)
+add_executable(test_component_fact test/test_component_fact.cpp)
+target_link_libraries(test_component_fact rrenvironment)
+target_link_libraries(test_component_fact dlib)
+add_test(NAME test_component_fact
+        COMMAND test_component_fact)
 
