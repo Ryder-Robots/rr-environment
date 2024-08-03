@@ -72,8 +72,6 @@ namespace rrenv {
    void WiringGpio::pull_up_down_ctl(int pin, int pun) {
          pullUpDnControl(pin, pun);
    }
-
-      // myWiringPiISR(myValue, INT_EDGE_RISING, std::bind(myActualCallback, myValue));
    
    int WiringGpio::isr(unsigned int bitRegister, int mode, int pin) {
       return rrWiringPiISR(pin, mode, std::bind(setBitRegInt, bitRegister));
