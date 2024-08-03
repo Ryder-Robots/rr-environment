@@ -14,7 +14,6 @@ namespace rrenv {
     // binds to wiring PI library.
     class WiringGpio : public Wiring {
     public: 
-        std::function<void()> cbfunc;
 
          // configures to BDM pin number which will work for RF robot hardware.
         void initilize() override;
@@ -29,8 +28,7 @@ namespace rrenv {
 
         void pull_up_down_ctl(int pin, int pun) override;
 
-    private:
-        void myCallback();
+        auto isr(unsigned int bitRegister, int mode, int pin);
     };
 }
 

@@ -14,7 +14,8 @@ dlib::logger dlog_b("rr-environment");
 namespace rrenv {
     Hcsr04::Hcsr04() : 
         TRIG("TRIG"),
-        ECHO("ECHO")
+        ECHO("ECHO"),
+        _mtx()
     {
         dlog_b << dlib::LINFO << "initialised HCSR04 driver";
     }
@@ -49,10 +50,12 @@ namespace rrenv {
             wiring.pull_up_down_ctl(_trig_pin, PUD_DOWN);
         }
 
-        volatile long now = micros();
         volatile long startTime = micros();
         // while (wiring.digital_read(_echo_pin) == LOW && micros() - now < HCSR_04_TIMEOUT);
         //while (wiring.digital_read(_echo_pin) == HIGH);
+        for (int i = 0; i < HCSR_04_TIMEOUT; i++) {
+            delay(1);
+        }
         volatile long endTime = micros();
         wiring.pull_up_down_ctl(_echo_pin, PUD_DOWN);
 

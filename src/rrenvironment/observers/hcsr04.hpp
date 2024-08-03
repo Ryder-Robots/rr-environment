@@ -19,16 +19,17 @@ namespace rrenv {
         const std::string TRIG;
         const std::string ECHO;
 
-        // Gicve a one second delay 
-        const int HCSR_04_TIMEOUT = 1000000;
+        // Give a one 1/10 delay 
+        const int HCSR_04_TIMEOUT = 10000;
 
         Hcsr04();
 
 
-        void setup(std::map<std::string, int>  &config, Wiring &wiring);
+        void setup(std::map<std::string, int>  &config, Wiring &wiring) override;
 
 
-        void run(std::map<std::string, int> &args, std::map<std::string, long> &rv, Wiring &wiring);
+        void run(std::map<std::string, int> &args, std::map<std::string, 
+            long> &rv, Wiring &wiring) override;
         
     private:
         int _trig_pin = 0;

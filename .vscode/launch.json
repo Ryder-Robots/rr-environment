@@ -27,7 +27,7 @@
             "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": false,
-            "miDebuggerPath": "/usr/bin/gdb",
+            "miDebuggerPath": "/home/aaron/bin/gdb",
             "MIMode": "gdb"
         }
     ]
