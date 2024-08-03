@@ -4,6 +4,8 @@
  * The default is GPIO (BDM), however there is an interface for testing
  * and because WiringPI will be deprecated and we may need some other 
  * way of interacting with this PI hardware.
+ * 
+ * TODO: Add some exception if the methods are not overwritten.
  **********************************************************************/
 #ifndef _WIRING_HPP_
 #define _WIRING_HPP_
@@ -68,6 +70,9 @@ namespace rrenv {
         // true, the pin has been triggered.
         virtual bool checkIsr(int bitRegister) {return false;}
 
+        virtual int isr(unsigned int bitRegister, int mode, int pin) {
+            return 0;
+        }
 
     };
 }

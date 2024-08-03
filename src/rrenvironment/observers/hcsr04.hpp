@@ -9,6 +9,7 @@
 #ifndef _HCSR04_HPP_ 
 #define _HCSR04_HPP_
 
+#include <exception>
 #include <wiringPi.h>
 #include <rrenvironment/observers.hpp>
 
@@ -18,6 +19,7 @@ namespace rrenv {
     public:
         const std::string TRIG;
         const std::string ECHO;
+        const std::string BITMASK;
 
         // Give a one 1/10 delay 
         const int HCSR_04_TIMEOUT = 10000;
@@ -34,6 +36,7 @@ namespace rrenv {
     private:
         int _trig_pin = 0;
         int _echo_pin = 0;
+        unsigned int _bit_mask = 0;
         dlib::mutex _mtx;
     };
 }

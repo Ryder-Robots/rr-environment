@@ -15,6 +15,7 @@ namespace rrenv {
     Hcsr04::Hcsr04() : 
         TRIG("TRIG"),
         ECHO("ECHO"),
+        BITMASK("BITMASK"),
         _mtx()
     {
         dlog_b << dlib::LINFO << "initialised HCSR04 driver";
@@ -31,6 +32,18 @@ namespace rrenv {
         }
         wiring.pull_up_down_ctl(config[ECHO], PUD_DOWN);
         dlog_b << dlib::LINFO << "HCSR04 configured for input";
+
+        dlog_b << dlib::LDEBUG << "setting bitmask";
+        // setting up callback.
+        if (!config.count(BITMASK)) {
+            dlog_b << dlib::LFATAL << "bitmask is not set";
+            throw std::runtime_error("bitMask is not set");
+        }
+
+        _bit_mask = config[BITMASK];
+        if (wiring.isr(_bit_mask, INT_EDGE_RISING, config[BITMASK])) {
+            //TODO: throw error.
+        }
     }
 
     /*************************************************************************************************

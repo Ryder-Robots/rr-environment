@@ -75,7 +75,7 @@ namespace rrenv {
 
       // myWiringPiISR(myValue, INT_EDGE_RISING, std::bind(myActualCallback, myValue));
    
-   auto WiringGpio::isr(unsigned int bitRegister, int mode, int pin) {
-      rrWiringPiISR(pin, mode, std::bind(setBitRegInt, bitRegister));
+   int WiringGpio::isr(unsigned int bitRegister, int mode, int pin) {
+      return rrWiringPiISR(pin, mode, std::bind(setBitRegInt, bitRegister));
    }
 }
