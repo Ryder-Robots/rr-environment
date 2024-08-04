@@ -82,16 +82,16 @@ int main() {
     fact.createAction(RRC_L298, "motorA", configA, mock);
     fact.createAction(RRC_L298, "motorB", configB, mock);
     fact.createObserver(RRC_HCSR04, "ultraSonic1", ultraSonic1, mock);
-    fact.createObserver(RRC_HCSR04, "ultraSonic2", ultraSonic2, mock);
-    fact.createObserver(RRC_HCSR04, "ultraSonic3", ultraSonic3, mock);
+    // fact.createObserver(RRC_HCSR04, "ultraSonic2", ultraSonic2, mock);
+    // fact.createObserver(RRC_HCSR04, "ultraSonic3", ultraSonic3, mock);
 
     std::map<string, int> args = {{"TRIG", 1}};
     std::map<string, long> result = {};
     fact.getObserver("ultraSonic1")->run(args, result, mock);
 
-    args["TRIG"] = 0;
-    fact.getObserver("ultraSonic2")->run(args, result, mock);
-    fact.getObserver("ultraSonic3")->run(args, result, mock);
+    // args["TRIG"] = 0;
+    // fact.getObserver("ultraSonic2")->run(args, result, mock);
+    // fact.getObserver("ultraSonic3")->run(args, result, mock);
 
      std::map<string, int> actionArgs = {{"IN1", HIGH}, {"IN2", LOW}, {"ENA", 350}, {"IN3", HIGH}, {"IN4", LOW}, {"ENB", 350}};
     fact.getAction("motorA")->run(actionArgs, mock);

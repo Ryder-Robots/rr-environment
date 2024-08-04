@@ -3,6 +3,7 @@
  * then recieve it back as trigger. It will then measure the time it took in milliseconds and return this
  * value within the rv map of the run() routine.
  * 
+ * Speed of sound at 20 degrees celius, in meters per second is 343
  */
 
 #include <rrenvironment/observers/hcsr04.hpp>
@@ -23,13 +24,20 @@ namespace rrenv {
 
 
     void Hcsr04::setup(std::map<std::string, int>  &config, Wiring &wiring) {
-        wiring.pin_mode(config[TRIG], OUTPUT);
-        wiring.pin_mode(config[ECHO], INPUT);
+    
+        _trig_pin = config[TRIG];
+        _echo_pin = config[ECHO];
+
 
         if (config[TRIG] != 0) {
-            wiring.pull_up_down_ctl(config[TRIG], PUD_DOWN);
+            dlog_b << dlib::LINFO << "setting up trigger pin for ultrasonc to: " << _trig_pin; 
+            wiring.pull_up_down_ctl(_trig_pin, PUD_DOWN);
+            wiring.pin_mode(_trig_pin, OUTPUT);
+            dlog_b << dlib::LINFO << "setup complete";
         }
-        wiring.pull_up_down_ctl(config[ECHO], PUD_DOWN);
+                
+        wiring.pin_mode(_echo_pin, INPUT);
+        wiring.pull_up_down_ctl(_echo_pin, PUD_DOWN);
         dlog_b << dlib::LINFO << "HCSR04 configured for input";
 
         dlog_b << dlib::LDEBUG << "setting bitmask";
@@ -56,7 +64,7 @@ namespace rrenv {
         dlib::auto_mutex lock(_mtx);
         // Give the trigger some time to exeucte (around 10 milliseconds)
         if (args[TRIG] != 0) {
-            dlog_b << dlib::LDEBUG << "sending trigger";
+            dlog_b << dlib::LDEBUG << "sending trigger to GPIO:" << _trig_pin;
             wiring.digital_write(_trig_pin, HIGH);
             delay(10);
             wiring.pull_up_down_ctl(_trig_pin, PUD_DOWN);
