@@ -56,21 +56,23 @@ namespace rrenv {
         dlib::auto_mutex lock(_mtx);
         // Give the trigger some time to exeucte (around 10 milliseconds)
         if (args[TRIG] != 0) {
-            dlog_b << dlib::LINFO << "sent trigger";
+            dlog_b << dlib::LDEBUG << "sending trigger";
             wiring.digital_write(_trig_pin, HIGH);
             delay(10);
             wiring.pull_up_down_ctl(_trig_pin, PUD_DOWN);
+            dlog_b << dlib::LDEBUG << "sent trigger";
         }
 
         volatile long startTime = micros();
         for (int i = 0; i < HCSR_04_TIMEOUT; i++) {
             delay(10);
             if (wiring.checkIsr(_bit_mask)) {
+                dlog_b << dlib::LDEBUG << "recieved ultrasonic ping";
+                wiring.pull_up_down_ctl(_echo_pin, PUD_DOWN);
                 break;
             }
         }
         volatile long endTime = micros();
-        wiring.pull_up_down_ctl(_echo_pin, PUD_DOWN);
 
         // Dont bother calculating the difference, do it in the policy. Because of the delay above
         // which could skew the result. Want to take the start tie only from the sensor(s) that has

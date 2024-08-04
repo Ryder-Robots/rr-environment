@@ -21,8 +21,9 @@ namespace rrenv {
         const std::string ECHO;
         const std::string BITMASK;
 
-        // Give a one 1/10 delay 
-        const int HCSR_04_TIMEOUT = 10000;
+        // TODO: Work out delay based on say 50 meters or so away but to make it 
+        // easy lets just call it 5 for now.
+        const int HCSR_04_TIMEOUT = 5;
 
         Hcsr04();
 
