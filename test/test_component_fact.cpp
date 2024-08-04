@@ -62,7 +62,7 @@ int main() {
         {"ENB", PWM_1_19}};
 
     std::map<string, int> ultraSonic1 = {
-        {"TRIG", GPIO_7}, {"ECHO", GPIO_5}, {"BITMASK", 0b0001}
+        {"TRIG", GPIO_6}, {"ECHO", GPIO_5}, {"BITMASK", 0b0001}
     };
 
     std::map<string, int> ultraSonic2 = {

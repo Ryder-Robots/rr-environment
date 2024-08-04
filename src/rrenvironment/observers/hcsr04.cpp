@@ -31,11 +31,11 @@ namespace rrenv {
 
         if (config[TRIG] != 0) {
             dlog_b << dlib::LINFO << "setting up trigger pin for ultrasonc to: " << _trig_pin; 
-            wiring.pull_up_down_ctl(_trig_pin, PUD_UP);
             wiring.pin_mode(_trig_pin, OUTPUT);
+            // wiring.pull_up_down_ctl(_trig_pin, PUD_DOWN);
             dlog_b << dlib::LINFO << "setup complete";
         }
-        wiring.pull_up_down_ctl(_echo_pin, PUD_UP);      
+        // wiring.pull_up_down_ctl(_echo_pin, PUD_DOWN);      
         wiring.pin_mode(_echo_pin, INPUT);
         dlog_b << dlib::LINFO << "HCSR04 configured for input";
 
@@ -65,15 +65,15 @@ namespace rrenv {
         }
 
         volatile long startTime = micros();
-        for (int i = 0; i < HCSR_04_TIMEOUT; i++) {
+        //long timeout = micros() + HCSR_04_TIMEOUT;
+        long timeout = micros() + 10000;
+        while (micros() < timeout) {
             if (wiring.digital_read(_echo_pin) == HIGH) {
                 dlog_b << dlib::LDEBUG << "echo ping has been triggered GPIO:" << _echo_pin;
                 break;
             }
-            //delay(1);
         }
         volatile long endTime = micros();
-        wiring.pull_up_down_ctl(_echo_pin, PUD_DOWN);
         if (args[TRIG] != 0) {
             dlog_b << dlib::LDEBUG << "seting pin to low";
             wiring.digital_write(_trig_pin, LOW);
