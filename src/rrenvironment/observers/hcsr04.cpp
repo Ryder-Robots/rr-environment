@@ -3,7 +3,6 @@
  * then recieve it back as trigger. It will then measure the time it took in milliseconds and return this
  * value within the rv map of the run() routine.
  * 
- * TODO: manage the state changes through interupts not using while loops. (too processor intensive.)
  */
 
 #include <rrenvironment/observers/hcsr04.hpp>
@@ -41,8 +40,8 @@ namespace rrenv {
         }
 
         _bit_mask = config[BITMASK];
-        if (wiring.isr(_bit_mask, INT_EDGE_RISING, config[BITMASK])) {
-            //TODO: throw error.
+        if (wiring.isr(_bit_mask, INT_EDGE_RISING, config[BITMASK]) < 0) {
+            throw std::runtime_error("unable to create ISR to pin using bitmask");
         }
     }
 
@@ -64,10 +63,11 @@ namespace rrenv {
         }
 
         volatile long startTime = micros();
-        // while (wiring.digital_read(_echo_pin) == LOW && micros() - now < HCSR_04_TIMEOUT);
-        //while (wiring.digital_read(_echo_pin) == HIGH);
         for (int i = 0; i < HCSR_04_TIMEOUT; i++) {
-            delay(1);
+            delay(10);
+            if (wiring.checkIsr(_bit_mask)) {
+                break;
+            }
         }
         volatile long endTime = micros();
         wiring.pull_up_down_ctl(_echo_pin, PUD_DOWN);

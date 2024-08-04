@@ -4,7 +4,7 @@
  ***************************************************/
 
 
-#include "rrenvironment/wiring/wiringgpio.hpp"
+#include <rrenvironment/wiring/wiringgpio.hpp>
 
 
 // Create a logger specific for this
@@ -17,6 +17,7 @@ dlib::logger dlog_gpio("rr-environment");
  */
 
 static volatile unsigned long  RR_OBS_RX = 0;
+static dlib::mutex regLock;
 
 std::function<void()> cbfunc;
 
@@ -29,9 +30,9 @@ void callbackRef()
  * Sets RR_OBS_RX register to bitRegister using bitwise 'OR' when pin defined in
  * 
  */
-//TODO: My actial callback
 void setBitRegInt(unsigned long bitRegister)
 {
+   dlib::auto_mutex locker(regLock);
    dlog_gpio << dlib::LDEBUG << "got value " << bitRegister;
    RR_OBS_RX |= bitRegister;
 }
@@ -75,5 +76,10 @@ namespace rrenv {
    
    int WiringGpio::isr(unsigned int bitRegister, int mode, int pin) {
       return rrWiringPiISR(pin, mode, std::bind(setBitRegInt, bitRegister));
+   }
+
+   bool WiringGpio::checkIsr(unsigned int bitRegister) {
+      dlib::auto_mutex locker(regLock);
+      return RR_OBS_RX &= bitRegister;
    }
 }

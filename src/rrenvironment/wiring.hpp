@@ -6,6 +6,8 @@
  * way of interacting with this PI hardware.
  * 
  * TODO: Add some exception if the methods are not overwritten.
+ * TODO: Move constants to a public include file, so that the policy 
+ *       can use them.
  **********************************************************************/
 #ifndef _WIRING_HPP_
 #define _WIRING_HPP_
@@ -68,7 +70,7 @@ namespace rrenv {
 
         // check if pin has triggered. if you set an ISR of b0001 then if checkIsr(b0001) returns
         // true, the pin has been triggered.
-        virtual bool checkIsr(int bitRegister) {return false;}
+        virtual bool checkIsr(unsigned int bitRegister) {return false;}
 
         virtual int isr(unsigned int bitRegister, int mode, int pin) {
             return 0;

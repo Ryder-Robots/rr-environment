@@ -29,6 +29,8 @@ namespace rrenv {
         void pull_up_down_ctl(int pin, int pun) override;
 
         int isr(unsigned int bitRegister, int mode, int pin) override;
+
+        bool checkIsr(unsigned int bitRegister) override;
     };
 }
 
