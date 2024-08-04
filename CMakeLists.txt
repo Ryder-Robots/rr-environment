@@ -33,11 +33,9 @@ set(PUBLIC_HEADER include/rr_logger_hook.hpp)
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/${JSON_VERSION}/json.tar.xz)
 FetchContent_MakeAvailable(json)
 list(APPEND CMAKE_MODULE_PATH ${nlohmann_json})
-include_directories(${json_SOURCE_DIR}/include include)
+include_directories(${json_SOURCE_DIR}/include include src)
 
 pkg_search_module(DLIB REQUIRED dlib-1)
-
-#  /usr/local/lib/pkgconfig/dlib-1.pc
 
 # Create library outline
 add_library(rrenvironment SHARED  ${rrenvironment_SOURCES} )

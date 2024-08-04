@@ -31,13 +31,12 @@ namespace rrenv {
 
         if (config[TRIG] != 0) {
             dlog_b << dlib::LINFO << "setting up trigger pin for ultrasonc to: " << _trig_pin; 
-            wiring.pull_up_down_ctl(_trig_pin, PUD_DOWN);
+            wiring.pull_up_down_ctl(_trig_pin, PUD_UP);
             wiring.pin_mode(_trig_pin, OUTPUT);
             dlog_b << dlib::LINFO << "setup complete";
         }
-                
+        wiring.pull_up_down_ctl(_echo_pin, PUD_UP);      
         wiring.pin_mode(_echo_pin, INPUT);
-        wiring.pull_up_down_ctl(_echo_pin, PUD_DOWN);
         dlog_b << dlib::LINFO << "HCSR04 configured for input";
 
         dlog_b << dlib::LDEBUG << "setting bitmask";
@@ -45,11 +44,6 @@ namespace rrenv {
         if (!config.count(BITMASK)) {
             dlog_b << dlib::LFATAL << "bitmask is not set";
             throw std::runtime_error("bitMask is not set");
-        }
-
-        _bit_mask = config[BITMASK];
-        if (wiring.isr(_bit_mask, INT_EDGE_RISING, config[BITMASK]) < 0) {
-            throw std::runtime_error("unable to create ISR to pin using bitmask");
         }
     }
 
@@ -67,20 +61,23 @@ namespace rrenv {
             dlog_b << dlib::LDEBUG << "sending trigger to GPIO:" << _trig_pin;
             wiring.digital_write(_trig_pin, HIGH);
             delay(10);
-            wiring.pull_up_down_ctl(_trig_pin, PUD_DOWN);
             dlog_b << dlib::LDEBUG << "sent trigger";
         }
 
         volatile long startTime = micros();
         for (int i = 0; i < HCSR_04_TIMEOUT; i++) {
-            delay(10);
-            if (wiring.checkIsr(_bit_mask)) {
-                dlog_b << dlib::LDEBUG << "recieved ultrasonic ping";
-                wiring.pull_up_down_ctl(_echo_pin, PUD_DOWN);
+            if (wiring.digital_read(_echo_pin) == HIGH) {
+                dlog_b << dlib::LDEBUG << "echo ping has been triggered GPIO:" << _echo_pin;
                 break;
             }
+            //delay(1);
         }
         volatile long endTime = micros();
+        wiring.pull_up_down_ctl(_echo_pin, PUD_DOWN);
+        if (args[TRIG] != 0) {
+            dlog_b << dlib::LDEBUG << "seting pin to low";
+            wiring.digital_write(_trig_pin, LOW);
+        }
 
         // Dont bother calculating the difference, do it in the policy. Because of the delay above
         // which could skew the result. Want to take the start tie only from the sensor(s) that has
@@ -89,6 +86,7 @@ namespace rrenv {
         rv["endTime"] =  endTime;
 
         dlog_b << dlib::LINFO << "startTime: " << startTime << " endTime: " << endTime;
+        dlog_b << dlib::LDEBUG << "time difference: " << (endTime - startTime); 
         _mtx.unlock();
     }
 }

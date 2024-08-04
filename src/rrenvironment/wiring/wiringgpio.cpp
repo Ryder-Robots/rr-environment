@@ -67,7 +67,7 @@ namespace rrenv {
    }
 
    long WiringGpio::digital_read(int pin) {
-      return digital_read(pin);
+      return digitalRead(pin);
    }
 
    void WiringGpio::pull_up_down_ctl(int pin, int pun) {
