@@ -37,10 +37,10 @@
 // note that any value of 0, can be one of three conidtions
 // too far, too close, or unable tobe detected.
 typedef struct UltraSonic_s {
-    uint32_t forward;
-    uint32_t port;
-    uint32_t starbroad;
-    uint32_t stern;
+    uint16_t forward;
+    uint16_t port;
+    uint16_t starbroad;
+    uint16_t stern;
 } UltraSonic_t;
 
 
@@ -68,11 +68,11 @@ typedef struct UltraSonic_s {
 // IN4 for Hbridge B
 #define RR_OPT_HB_IN7 0b01000000
 typedef struct HbridgeArgs_s {
-    uint8_t  opt;
-    uint32_t ea; // Hbridge A - EA
-    uint32_t eb; // Hbridge A - EB
-    uint32_t ec; // Hbridge B - EA
-    uint32_t ed; // Hbridge B - EB
+    uint8_t opt;
+    uint8_t ea; // Hbridge A - EA (multiple value by 4 in microprocessor)
+    uint8_t eb; // Hbridge A - EB (multiple value by 4 in microprocessor)
+    uint8_t ec; // Hbridge B - EA (multiple value by 4 in microprocessor)
+    uint8_t ed; // Hbridge B - EB (multiple value by 4 in microprocessor)
 } HbridgeArgs_t;
 
 

@@ -18,6 +18,8 @@ set(rrenvironment_SOURCES
     src/rrenvironment/actions.hpp 
     src/rrenvironment/wiring.hpp
     src/rrenvironment/wiring/wiringgpio.cpp
+    src/rrenvironment/wiring/wiringi2c.hpp
+    src/rrenvironment/wiring/wiringi2c.cpp
     src/rrenvironment/actions/l298.hpp
     src/rrenvironment/actions/l298.cpp
     src/rrenvironment/observers.hpp
@@ -70,6 +72,14 @@ add_test(NAME test_hcsr04
          COMMAND test_hcsr04)
 
 
+include_directories(src)
+add_executable(test_i2c test/test_i2c.cpp)
+target_link_libraries(test_i2c rrenvironment)
+target_link_libraries(test_i2c dlib)
+add_test(NAME test_i2c
+        COMMAND test_i2c)
+
+#TODO: This library is broken and needs fixing :(
 include_directories(src)
 add_executable(test_component_fact test/test_component_fact.cpp)
 target_link_libraries(test_component_fact rrenvironment)
