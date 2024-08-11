@@ -1,6 +1,7 @@
 #include <map>
 
 #include <dlib/logger.h>
+#include <rrenvironment/rrenvironment.h>
 #include <rrenvironment/wiring.hpp>
 #include <rrenvironment/rr_logger_hook.hpp>
 #include <rrenvironment/componentfact.hpp>

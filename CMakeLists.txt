@@ -27,7 +27,7 @@ set(rrenvironment_SOURCES
     src/rrenvironment/componentfact.cpp
 )
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "wiringpi, wiringpi (>= 3.2)")
-set(PUBLIC_HEADER include/rr_logger_hook.hpp)
+set(PUBLIC_HEADER include/rrenvironment.h)
 
 
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/${JSON_VERSION}/json.tar.xz)
