@@ -88,13 +88,17 @@ int main() {
     std::map<string, int> args = {{"TRIG", 1}};
     std::map<string, long> result = {};
     fact.getObserver("ultraSonic1")->run(args, result, mock);
+    int travelTimeUsec = (result["endTime"] - result["startTime"] / 2) * 340;
+    double distanceMeters = travelTimeUsec *0.017150;
+    dlog << LINFO << "time different is:" << distanceMeters;
 
     // args["TRIG"] = 0;
     // fact.getObserver("ultraSonic2")->run(args, result, mock);
     // fact.getObserver("ultraSonic3")->run(args, result, mock);
 
-     std::map<string, int> actionArgs = {{"IN1", HIGH}, {"IN2", LOW}, {"ENA", 350}, {"IN3", HIGH}, {"IN4", LOW}, {"ENB", 350}};
+    std::map<string, int> actionArgs = {{"IN1", HIGH}, {"IN2", LOW}, {"ENA", 350}, {"IN3", HIGH}, {"IN4", LOW}, {"ENB", 350}};
     fact.getAction("motorA")->run(actionArgs, mock);
+
 
     dlog << LINFO << "finish testing";
     return 0;
