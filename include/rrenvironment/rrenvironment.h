@@ -15,10 +15,16 @@
 // Ultra Sonic registers can use a micro-processor, or be an I2C address on their own.
 // if they're a register then three are available. However if using a micro-processor, 
 // it should handle all three ultra-sonics and use address RR_REG_I2C_US
-#define RR_REG_I2C_US   0x0008
-#define RR_REG_I2C_US2  0x000a
-#define RR_REG_I2C_US3  0x000c
-#define RR_REG_I2C_H_BRIDGE 0x000d
+#define RR_ADDR_I2C_00008 0x0008
+#define RR_ADDR_I2C_00009 0x0009
+#define RR_ADDR_I2C_0000a 0x000a
+#define RR_AADR_I2C_0000b 0x000b
+#define RR_ADDR_I2C_0000c 0x000c
+#define RR_ADDR_I2C_0000d 0x000d
+
+// Specific function directed at a micro-processor register.
+#define RR_REG_US 0x0001  // ulrtasonic sensor
+#define RR_REG_MT 0x0002  // Operate motor
 
 
 //////////////////////////////////////////////////////////////////////////

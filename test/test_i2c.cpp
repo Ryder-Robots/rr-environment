@@ -14,9 +14,23 @@ int main() {
     dlog << LINFO << "start testing";
 
     rrenv::WiringI2C wiring = rrenv::WiringI2C();
-    int i2cus = wiring.linkDevice(RR_REG_I2C_US);
-    wiring.sendData(i2cus, 72);
-    unsigned int result = wiring.readData(i2cus);
+    int i2c008 = wiring.linkDevice(RR_ADDR_I2C_00008);
+    wiring.sendData(i2c008, 72);
+    unsigned int result = wiring.readData(i2c008);
+    dlog << LINFO << "result:" << result;
+
+    std::array<uint8_t, 3> data = {'a', 'b', 'c'};
+
+    wiring.sendBlockData(i2c008, data.data());
+    result = wiring.readData(i2c008);
+    dlog << LINFO << "result:" << result;
+    result = wiring.readData(i2c008);
+    dlog << LINFO << "result:" << result;
+    result = wiring.readData(i2c008);
+    dlog << LINFO << "result:" << result;
+    result = wiring.readData(i2c008);
+    dlog << LINFO << "result:" << result;
+
 
     // (result == 72) ? dlog << LINFO << "successfully got one byte back" : perror("can not send bytes");
 

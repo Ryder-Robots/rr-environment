@@ -42,9 +42,9 @@ int main() {
     dlog << LINFO << "start testing";
 
     WiringI2C wiring;
-    int i2cus = wiring.linkDevice(RR_REG_I2C_US);
-    wiring.sendData(i2cus, 72);
-    unsigned int result = wiring.readData(i2cus);
+    int i2c008 = wiring.linkDevice(RR_ADDR_I2C_00008);
+    wiring.sendData(i2c008, 72);
+    unsigned int result = wiring.readData(i2c008);
 
     dlog << LINFO << "sent 72 and got back " << result;
 

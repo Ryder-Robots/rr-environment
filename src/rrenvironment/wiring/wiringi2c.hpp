@@ -27,7 +27,7 @@ namespace rrenv {
 
         // CAVEAT: This is not using i2c register block data at this stage, its simply
         // sending 8 bits at a time for the device.
-        void sendBlockData(const int fd, const uint8_t *data_to_send);
+        void sendBlockData(const int fd,  const uint8_t *data_to_send);
 
         // CAVEAT: This is not using i2c register block data at this stage, its simply
         // siply reads 8 bits of data at a time.
