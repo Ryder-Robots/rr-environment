@@ -5,6 +5,7 @@
 #ifndef WIRINGI2C_HPP
 #define WIRINGI2C_HPP
 
+#include <list>
 #include <stdint.h>
 #include <iostream>
 #include <exception>
@@ -27,11 +28,11 @@ namespace rrenv {
 
         // CAVEAT: This is not using i2c register block data at this stage, its simply
         // sending 8 bits at a time for the device.
-        void sendBlockData(const int fd,  const uint8_t *data_to_send);
+        void sendDataBlock(const int fd,  const std::list<uint8_t> &data_to_send);
 
         // CAVEAT: This is not using i2c register block data at this stage, its simply
         // siply reads 8 bits of data at a time.
-        uint8_t *readDataBlock(const int fd, const size_t data_to_read_sz);
+        std::list<uint8_t> readDataBlock(const int fd, const size_t sz);
     };
 }
 

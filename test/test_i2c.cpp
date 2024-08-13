@@ -19,18 +19,11 @@ int main() {
     unsigned int result = wiring.readData(i2c008);
     dlog << LINFO << "result:" << result;
 
-    std::array<uint8_t, 3> data = {'a', 'b', 'c'};
+    std::list<uint8_t> data = {72};
 
-    wiring.sendBlockData(i2c008, data.data());
-    result = wiring.readData(i2c008);
-    dlog << LINFO << "result:" << result;
-    result = wiring.readData(i2c008);
-    dlog << LINFO << "result:" << result;
-    result = wiring.readData(i2c008);
-    dlog << LINFO << "result:" << result;
-    result = wiring.readData(i2c008);
-    dlog << LINFO << "result:" << result;
-
+    wiring.sendDataBlock(i2c008, data);
+    std::list<uint8_t> blockResult = wiring.readDataBlock(i2c008, 1);
+    dlog << LINFO << "blockResult:" << (int) blockResult.front();
 
     // (result == 72) ? dlog << LINFO << "successfully got one byte back" : perror("can not send bytes");
 

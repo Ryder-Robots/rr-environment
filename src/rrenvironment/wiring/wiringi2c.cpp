@@ -32,42 +32,30 @@ namespace rrenv
 
     uint8_t WiringI2C::readData(const int fd)
     {
-        uint8_t result = 0;
+        int result = 0;
         // Read data from micro-controller
-        if ((result = wiringPiI2CRead(fd)) == -1)
+        if ((result = wiringPiI2CRead(fd)) == EOF)
         {
-            dlog_i2c << dlib::LERROR << "could not read data for device:" << fd;
+            dlog_i2c << dlib::LDEBUG << "no data for device:";
         }
-        return result;
+        return (uint8_t) result;
     }
 
-    void WiringI2C::sendBlockData(const int fd, const uint8_t *data_to_send)
+    void WiringI2C::sendDataBlock(const int fd, const std::list<uint8_t> &data)
     {
-        uint8_t blocks2send = sizeof(data_to_send) / sizeof(uint8_t);
+        dlog_i2c << dlib::LDEBUG << "sending to device " << fd;
 
-        dlog_i2c << dlib::LDEBUG << "sending " << blocks2send << " to device " << fd;
-        sendData(fd, blocks2send);
-
-        for (int i = 0; i < blocks2send; i++)
+        for (auto it = data.begin(); it != data.end(); ++it)
         {
-            sendData(fd, data_to_send[i]);
+            sendData(fd, *it);
         }
     }
 
-    uint8_t* WiringI2C::readDataBlock(const int fd, const size_t data_to_read_sz)
+   std::list<uint8_t> WiringI2C::readDataBlock(const int fd, const size_t sz)
     {
-        uint8_t *buf = static_cast<uint8_t *>(malloc(data_to_read_sz));
-        
-        // Get actual size of result.
-        uint8_t result = readData(fd);
-        if (result != data_to_read_sz) {
-            dlog_i2c << dlib::LWARN << "size of result data_to_read_sz is different";
-        }
-
-        int blocks = result / sizeof(uint8_t);
-        for (int i = 0; i < blocks; i++) 
-        {
-            buf[i] = readData(fd);
+        std::list<uint8_t> buf;
+        for (size_t i = 0; i < sz; i++) {
+            buf.push_back((uint8_t) wiringPiI2CRead(fd));
         }
         return buf;
     }
