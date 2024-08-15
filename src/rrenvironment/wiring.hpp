@@ -8,6 +8,9 @@
  * TODO: Add some exception if the methods are not overwritten.
  * TODO: Move constants to a public include file, so that the policy 
  *       can use them.
+ * 
+ * TODO: This code will be deprecated, movint to I2C micro-processor,
+ *       or other style bus.
  **********************************************************************/
 #ifndef _WIRING_HPP_
 #define _WIRING_HPP_

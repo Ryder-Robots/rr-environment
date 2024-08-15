@@ -19,7 +19,7 @@ int main() {
     unsigned int result = wiring.readData(i2c008);
     dlog << LINFO << "result:" << result;
 
-    std::list<uint8_t> data = {72};
+    std::list<uint8_t> data = {72, 80, 81};
 
     wiring.sendDataBlock(i2c008, data);
     std::list<uint8_t> blockResult = wiring.readDataBlock(i2c008, 1);

@@ -1,6 +1,8 @@
 /************************************************************************
  * 
  * Components (observers and actions) factory.
+ * 
+ * TODO: Replace Wiring with WiringMc.
  */
 
 #include <rrenvironment/componentfact.hpp>
