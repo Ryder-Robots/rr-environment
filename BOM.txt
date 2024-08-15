@@ -12,3 +12,6 @@
 
 * Voltage meter, (battery health)
 -- https://www.instructables.com/Simple-Arduino-Voltage-Monitoring/
+
+* Camera
+-- https://raspberrytips.com/use-c-on-raspberry-pi/

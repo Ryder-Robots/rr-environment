@@ -6,6 +6,7 @@
 #define WIRINGI2C_HPP
 
 #include <list>
+#include <map>
 #include <stdint.h>
 #include <iostream>
 #include <exception>
@@ -14,25 +15,45 @@
 #include <rrenvironment/rrenvironment.h>
 
 namespace rrenv {
-    class WiringI2C {
-    public:
 
-        // Retruns file hanlde given the devId.
-        int linkDevice(const int devId);
+    // Format of data to send to MC
+    class rr_io_tx {
+    public:
+        uint8_t addr; // I2C address as defined above.
+        uint8_t io;   // this must be a value a RR_IO
+        std::list<uint8_t> bytes; // bytes to send the microprocessor
+    };
+
+    // what comes back form the MC
+    class rr_io_rx {
+    public:
+        uint8_t io;   // this must be a value a RR_IO
+        std::list<uint8_t> bytes; // bytes recieved from micro processor.
+    };
+
+    class RrWiringI2C {
+    public:
+        RrWiringI2C();
+
+        // Send and recieve data from micro-processor.
+        rr_io_rx txRx(const rr_io_tx& request);
+    
+    private:
+        void sendBlockData(const rr_io_tx& request);
+
+        rr_io_rx receiveBlockData(uint8_t addr);
 
         // send 8 bits of unsigned data to bus directed at a given handle.
-        void sendData(const int df,  const uint8_t data_to_send);
+        void sendData(const int fd,  const uint8_t data_to_send);
 
         // receive 8 bits of data from a given bus.
         uint8_t readData(const int fd);
 
-        // CAVEAT: This is not using i2c register block data at this stage, its simply
-        // sending 8 bits at a time for the device.
-        void sendDataBlock(const int fd,  const std::list<uint8_t> &data_to_send);
+        // Retruns file hanlde given the address.
+        int linkDevice(const u_int8_t addr);
 
-        // CAVEAT: This is not using i2c register block data at this stage, its simply
-        // siply reads 8 bits of data at a time.
-        std::list<uint8_t> readDataBlock(const int fd, const size_t sz);
+        // Map of FD set by linkDevice
+        std::map<uint8_t, int> _fdMap;
     };
 }
 
