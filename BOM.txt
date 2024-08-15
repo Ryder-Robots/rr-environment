@@ -1,0 +1,14 @@
+* MPU-650 Accelometer and gyroscope (I2C) 
+-- Purchase:  https://core-electronics.com.au/mpu-6050-module-3-axis-gyroscope-acce-lerometer.html
+-- Code reference: https://howtomechatronics.com/tutorials/arduino/arduino-and-mpu6050-accelerometer-and-gyroscope-tutorial/
+
+* GPS Ublox Neo
+-- Purchase: https://core-electronics.com.au/u-blox-neo-6m-gps-module.html
+-- Code reference: https://core-electronics.com.au/guides/how-to-use-gps-with-arduino/
+
+-- BMS
+-- Purchase: https://core-electronics.com.au/3-cell-18650-bms-module.html
+
+
+* Voltage meter, (battery health)
+-- https://www.instructables.com/Simple-Arduino-Voltage-Monitoring/
