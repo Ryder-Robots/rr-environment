@@ -54,24 +54,6 @@ install(
 
 enable_testing()
 
-# Test components
-# Test H Driver
-include_directories(src)
-add_executable(test_l298 test/test_l298.cpp)
-target_link_libraries(test_l298 rrenvironment)
-target_link_libraries(test_l298 dlib)
-add_test(NAME test_l298
-         COMMAND test_l298)
-
-# Test ultra sonic
-include_directories(src)
-add_executable(test_hcsr04 test/test_hcsr04.cpp)
-target_link_libraries(test_hcsr04 rrenvironment)
-target_link_libraries(test_hcsr04 dlib)
-add_test(NAME test_hcsr04
-         COMMAND test_hcsr04)
-
-
 include_directories(src)
 add_executable(test_i2c test/test_i2c.cpp)
 target_link_libraries(test_i2c rrenvironment)

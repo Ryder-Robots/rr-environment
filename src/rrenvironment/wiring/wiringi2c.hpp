@@ -57,9 +57,12 @@ namespace rrenv {
         int link_device(const uint8_t addr, const uint8_t io);
 
     private:
-        // maps file reference to device address, and IO function
-        // the keys are <address, io_fuction> = file identifier.
-        std::map<std::pair<uint8_t, uint8_t>, int> _fd_map;
+        // Address points to file descriptor
+        std::map<uint8_t, int> _addr2fd_map;
+
+        // Point funciton to address
+        std::map<uint8_t, uint8_t> _func2addr_map;
+
     };
 }
 

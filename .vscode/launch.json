@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) test_l298",
+            "name": "(gdb) test_i2c",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/test_l298",
+            "program": "${workspaceFolder}/build/test_i2c",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

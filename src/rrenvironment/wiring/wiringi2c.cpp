@@ -61,22 +61,27 @@ namespace rrenv
      */
     int RrWiringI2C::link_device(const u_int8_t addr, const uint8_t io)
     {
-        int fd = wiringPiI2CSetup(addr);
-        if (fd == -1)
-        {
-            dlog_i2c << dlib::LERROR << "Failed to init I2C communication.\n";
-            throw std::runtime_error("Failed to init I2C communication");
+        int fd = -1;
+        if (_addr2fd_map.count(addr) == 0) {
+            fd = wiringPiI2CSetup(addr);
+            if (fd == -1)
+            {
+                dlog_i2c << dlib::LERROR << "Failed to init I2C communication.\n";
+                throw std::runtime_error("Failed to init I2C communication");
+            }
+            dlog_i2c << dlib::LINFO << "I2C communication successfully setup for device: " << addr;
+            _addr2fd_map[addr] = fd;
+            dlog_i2c << dlib::LINFO << "I2C device registered to map";
         }
-        dlog_i2c << dlib::LINFO << "I2C communication successfully setup for device: " << addr;
-        
-        _fd_map[std::make_pair(addr, io)] = fd;
-        dlog_i2c << dlib::LINFO << "I2C device registered to map";
-        return fd;
+
+        _func2addr_map.try_emplace(io, addr);
+        return _addr2fd_map[addr];
     }
 
     std::map<std::pair<uint8_t, uint8_t>, int> RrWiringI2C::get_addresses()
     {
-        return _fd_map;
+        std::map<std::pair<uint8_t, uint8_t>, int> map;
+        return map;
     }
 
 }
