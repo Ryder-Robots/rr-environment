@@ -16,7 +16,7 @@ int main()
     dlog << LINFO << "start testing";
 
     rrenv::RrWiringI2C wiring = rrenv::RrWiringI2C();
-    int fd = wiring.link_device(RR_ADDR_I2C_MC1, RR_IO_MOTORS);
+    int fd = wiring.link_device(RR_ADDR_I2C_MC1, RR_IO_MOTORS, 0x00);
 
     std::map<uint8_t, int>  addr2file = wiring.get_i2c_addr2file_map();
 
@@ -36,6 +36,12 @@ int main()
     {
         return 1;
     }
+
+    std::list<uint8_t> data = {72};
+    rrenv::RrIoTx rtx = rrenv::RrIoTx();
+    rtx._io = RR_IO_MOTORS;
+    rtx._bytes = data;
+    wiring.send_block_data(rtx);
 
 
 

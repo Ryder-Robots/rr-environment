@@ -1,5 +1,13 @@
-/************************************************************************
- * Basic I2C bus implenentation,  not fully featured.
+/*!
+ * \file wiringi2c.hpp
+ * \brief Basic I2C bus implenentation,  not fully featured.
+ * 
+ * I2C (TW) for debian is based of the BSD SMBus protocol 
+ * https://man.freebsd.org/cgi/man.cgi?query=smbus&sektion=4&n=1
+ * 
+ * A packaet layout of the bus looks like
+ * https://www.kernel.org/doc/html/latest/i2c/smbus-protocol.html
+ * https://e2e.ti.com/support/microcontrollers/msp-low-power-microcontrollers-group/msp430/f/msp-low-power-microcontroller-forum/685262/msp430-smbus-smbus-library-compatabilty-mlx90615
  */
 
 #ifndef WIRINGI2C_HPP
@@ -9,7 +17,9 @@
 #include <map>
 #include <stdint.h>
 #include <iostream>
+#include <chrono>
 #include <unistd.h>
+#include <vector>
 #include <exception>
 #include <dlib/logger.h>
 #include <wiringPiI2C.h>
@@ -18,48 +28,84 @@
 
 namespace rrenv {
 
-    // Format of data to send to MC
-    class rr_io_tx {
+    /*!
+     * \def rr_io_tx cmd  = rr_io_tx()
+     *
+     * Sends command to the SMBus. _bytes must be populated with no more than 32 bytes
+     * in the order that is expected by the device or micro-processor. Byte are to sent
+     * using MSb
+     */
+    class RrIoTx {
     public:
-        uint8_t _addr; // I2C address as defined above.
-        uint8_t _io;   // this must be a value a RR_IO
-        std::list<uint8_t> _bytes; // bytes to send the microprocessor
+        // time that the request was sent.
+        std::chrono::time_point<std::chrono::system_clock> _tp; 
+        std::hash<std::string> _trace_id;  // indicates where the request originally came from
+        std::hash<std::string> _span_id;   // indicates what subsysterms this request has touched.
+        uint8_t _io;                       // this must be a value a RR_IO
+        std::list<uint8_t> _bytes;         // bytes to send the microprocessor
     };
 
-    // what comes back form the MC
-    class rr_io_rx {
+    /*!
+     * \def rr_io_rx rx = wiring.recieve_data_block(RR_IO_MOTORS);
+     *
+     * Data recieved from the device or micro-controller.
+     */
+    class RrIoRx {
     public:
+        // time that the request was sent.
+        std::chrono::time_point<std::chrono::system_clock> _tp; 
+        std::hash<std::string> _trace_id;  // indicates where the request originally came from
+        std::hash<std::string> _span_id;   // indicates what subsysterms this request has touched.
         uint8_t _io;               // this must be a value a RR_IO
         std::list<uint8_t> _bytes; // bytes recieved from micro processor.
     };
 
+    /*
+     * links to I2C bus.
+     */
     class RrWiringI2C {
     public:
         RrWiringI2C();
 
         ~RrWiringI2C();
 
-        // Send and recieve data from micro-processor.
-        rr_io_rx tx_rx(const rr_io_tx& request);
+        /*!
+         * creates device link to a micro-controller that is using addres 'addr'. 
+         *
+         * \param addr I2C address of device or micro-controller
+         * \param cmd  IO command defined in rrenvironment.h that device can perform.
+         * \param reg  internal register that the device will use when it can perform more than
+         *             one command.
+         * \return file descriptor for device
+         */
+        int link_device(const uint8_t addr, const uint8_t cmd, const uint8_t reg);
 
-        // Get Addresses and their file descriptors
+        /*!
+         * sends request to I2C device or micro-processor.
+         *
+         * \param request request to send to device.
+         * \return response from device.
+         */
+        RrIoRx tx_rx(const RrIoTx &request);
+
+        /*!
+         * list of registered addresses, and their associated file descrptors.
+         */
         std::map<uint8_t, int> get_i2c_addr2file_map();
 
-        // Get functions and their address addresses
+        /*!
+         * list of commands and its associated I2C address
+         */
         std::map<uint8_t, uint8_t> get_i2c_io2addr_map();
+
+        /*!
+         * list of commands and its assocated register for device.
+         */
+        std::map<uint8_t, uint8_t> get_i2c_io2reg_map();
     
-        void send_block_data(const rr_io_tx& request);
+        void send_block_data(const RrIoTx &request);
 
-        rr_io_rx receive_block_data(uint8_t addr);
-
-        // send 8 bits of unsigned data to bus directed at a given handle.
-        void send_data(const int fd,  const uint8_t data_to_send);
-
-        // receive 8 bits of data from a given bus.
-        uint8_t recieve_data(const int fd);
-
-        // Retruns file hanlde given the address.
-        int link_device(const uint8_t addr, const uint8_t io);
+        RrIoRx receive_block_data(uint8_t addr);
 
     private:
         // Address points to file descriptor
@@ -68,6 +114,9 @@ namespace rrenv {
         // Point funciton to address
         std::map<uint8_t, uint8_t> _func2addr_map;
 
+        // Points function to micro-proessor register, 
+        // registers can be repeated.
+        std::map<uint8_t, uint8_t> _func2cmd_map;
     };
 }
 

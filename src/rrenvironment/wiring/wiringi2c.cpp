@@ -9,7 +9,11 @@ dlib::logger dlog_i2c("rr-environment");
 
 namespace rrenv
 {
-    RrWiringI2C::RrWiringI2C() {}
+    RrWiringI2C::RrWiringI2C():
+    _addr2fd_map{},
+    _func2addr_map{},
+    _func2cmd_map{}
+    {}
 
     // close all the file descriptors.
     RrWiringI2C::~RrWiringI2C() {
@@ -30,10 +34,12 @@ namespace rrenv
         return _func2addr_map;
     }
 
+
+
     /**
      * Register a linked to device to the internal map.
      */
-    int RrWiringI2C::link_device(const u_int8_t addr, const uint8_t io)
+    int RrWiringI2C::link_device(const u_int8_t addr, const uint8_t io, const uint8_t reg)
     {
         if (_addr2fd_map.count(addr) == 0) {
             int fd = wiringPiI2CSetup(addr);
@@ -48,7 +54,24 @@ namespace rrenv
         }
 
         _func2addr_map.try_emplace(io, addr);
+        _func2cmd_map.try_emplace(io, reg);
         return _addr2fd_map[addr];
+    }
+
+    void RrWiringI2C::send_block_data(const RrIoTx &request)
+    {
+        dlog_i2c << dlib::LDEBUG << "sending bytes to device: " << std::hex << _func2addr_map[request._io];
+        int fd = _addr2fd_map[_func2addr_map[request._io]];
+        uint8_t reg = _func2cmd_map[request._io];
+
+        uint8_t *data = new uint8_t[request._bytes.size()];
+        copy(request._bytes.begin(),request._bytes.end(), data);
+
+        if (wiringPiI2CWriteBlockData(fd, reg, data, request._bytes.size()) != 0) 
+        {
+            dlog_i2c << dlib::LERROR << "unable to send data: " << strerror(errno);
+            throw std::runtime_error("unable to send data");
+        }
     }
 
 }
