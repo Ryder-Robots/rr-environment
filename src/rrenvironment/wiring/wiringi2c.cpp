@@ -9,6 +9,49 @@ dlib::logger dlog_i2c("rr-environment");
 
 namespace rrenv
 {
+    RrWiringI2C::RrWiringI2C() {}
+
+    // close all the file descriptors.
+    RrWiringI2C::~RrWiringI2C() {
+        
+        for (auto it : _addr2fd_map)
+        {
+            close(it.second);
+        }
+    }
+
+    std::map<uint8_t, int> RrWiringI2C::get_i2c_addr2file_map()
+    {
+        return _addr2fd_map;
+    }
+
+    std::map<uint8_t, uint8_t> RrWiringI2C::get_i2c_io2addr_map()
+    {
+        return _func2addr_map;
+    }
+
+    /**
+     * Register a linked to device to the internal map.
+     */
+    int RrWiringI2C::link_device(const u_int8_t addr, const uint8_t io)
+    {
+        if (_addr2fd_map.count(addr) == 0) {
+            int fd = wiringPiI2CSetup(addr);
+            if (fd == -1)
+            {
+                dlog_i2c << dlib::LERROR << "Failed to init I2C communication.\n";
+                throw std::runtime_error("Failed to init I2C communication");
+            }
+            dlog_i2c << dlib::LINFO << "I2C communication successfully setup for device: " << addr;
+            _addr2fd_map[addr] = fd;
+            dlog_i2c << dlib::LINFO << "I2C device registered to map";
+        }
+
+        _func2addr_map.try_emplace(io, addr);
+        return _addr2fd_map[addr];
+    }
+
+}
 
 
 
@@ -48,40 +91,3 @@ namespace rrenv
 //         }
 //         return buf;
 //     }
-
-
-    // Private methods
-    RrWiringI2C::RrWiringI2C() 
-    {
-
-    }
-
-    /**
-     * Register a linked to device to the internal map.
-     */
-    int RrWiringI2C::link_device(const u_int8_t addr, const uint8_t io)
-    {
-        int fd = -1;
-        if (_addr2fd_map.count(addr) == 0) {
-            fd = wiringPiI2CSetup(addr);
-            if (fd == -1)
-            {
-                dlog_i2c << dlib::LERROR << "Failed to init I2C communication.\n";
-                throw std::runtime_error("Failed to init I2C communication");
-            }
-            dlog_i2c << dlib::LINFO << "I2C communication successfully setup for device: " << addr;
-            _addr2fd_map[addr] = fd;
-            dlog_i2c << dlib::LINFO << "I2C device registered to map";
-        }
-
-        _func2addr_map.try_emplace(io, addr);
-        return _addr2fd_map[addr];
-    }
-
-    std::map<std::pair<uint8_t, uint8_t>, int> RrWiringI2C::get_addresses()
-    {
-        std::map<std::pair<uint8_t, uint8_t>, int> map;
-        return map;
-    }
-
-}

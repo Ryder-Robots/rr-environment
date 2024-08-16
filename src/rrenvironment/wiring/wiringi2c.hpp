@@ -9,6 +9,7 @@
 #include <map>
 #include <stdint.h>
 #include <iostream>
+#include <unistd.h>
 #include <exception>
 #include <dlib/logger.h>
 #include <wiringPiI2C.h>
@@ -36,13 +37,17 @@ namespace rrenv {
     public:
         RrWiringI2C();
 
+        ~RrWiringI2C();
+
         // Send and recieve data from micro-processor.
         rr_io_rx tx_rx(const rr_io_tx& request);
 
-        // Get Addresses.
-        std::map<std::pair<uint8_t, uint8_t>, int> get_addresses();
+        // Get Addresses and their file descriptors
+        std::map<uint8_t, int> get_i2c_addr2file_map();
+
+        // Get functions and their address addresses
+        std::map<uint8_t, uint8_t> get_i2c_io2addr_map();
     
-    // protected:
         void send_block_data(const rr_io_tx& request);
 
         rr_io_rx receive_block_data(uint8_t addr);

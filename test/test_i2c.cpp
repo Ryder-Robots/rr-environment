@@ -8,7 +8,8 @@ using namespace dlib;
 
 dlib::logger dlog("rr-environment");
 
-int main() {
+int main() 
+{
     RrLoggerHook hook("/dev/stdout");
     set_all_logging_output_hooks(hook);
     dlog.set_level(LALL);
@@ -16,6 +17,26 @@ int main() {
 
     rrenv::RrWiringI2C wiring = rrenv::RrWiringI2C();
     int fd = wiring.link_device(RR_ADDR_I2C_MC1, RR_IO_MOTORS);
+
+    std::map<uint8_t, int>  addr2file = wiring.get_i2c_addr2file_map();
+
+    if (addr2file[RR_ADDR_I2C_MC1] == fd) {
+        dlog << LINFO << "has map to file reference";
+    }
+    else 
+    {
+        return 1;
+    }
+
+    std::map<uint8_t, uint8_t> io2addr_map = wiring.get_i2c_io2addr_map();
+    if (io2addr_map[RR_IO_MOTORS] == RR_ADDR_I2C_MC1) {
+        dlog << LINFO << "has io to addr reference";
+    }
+    else 
+    {
+        return 1;
+    }
+
 
 
     // wiring.sendData(i2c008, 72);
