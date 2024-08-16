@@ -12,25 +12,25 @@ dlib::logger dlog("rr-environment");
 
 class WiringPiMock : public rrenv::Wiring {
 public: 
-    void initilize() {
-        dlog << dlib::LINFO << "initializing using mock engine";
-    }
+    // void initilize() {
+    //     dlog << dlib::LINFO << "initializing using mock engine";
+    // }
 
-    void pin_mode(int pin, int mode) {
-        dlog << dlib::LINFO << "pin:" << pin << " mode:" << mode;
-    }
+    // void pin_mode(int pin, int mode) {
+    //     dlog << dlib::LINFO << "pin:" << pin << " mode:" << mode;
+    // }
 
-    void digital_write(int pin, int value) {
-        dlog << dlib::LINFO << "pin:" << pin << " value:" << value;
-    }
+    // void digital_write(int pin, int value) {
+    //     dlog << dlib::LINFO << "pin:" << pin << " value:" << value;
+    // }
 
-    void pmw_write(int pin, int value) {
-        dlog << dlib::LINFO << "pin:" << pin << " value:" << value;
-    }
+    // void pmw_write(int pin, int value) {
+    //     dlog << dlib::LINFO << "pin:" << pin << " value:" << value;
+    // }
 
-    long digital_read(int pin) {
-        return 1;
-    }
+    // long digital_read(int pin) {
+    //     return 1;
+    // }
 };
 
 using namespace rrenv;
@@ -40,13 +40,6 @@ int main() {
     set_all_logging_output_hooks(hook);
     dlog.set_level(LALL);
     dlog << LINFO << "start testing";
-
-    WiringI2C wiring;
-    int i2c008 = wiring.linkDevice(RR_ADDR_I2C_00008);
-    wiring.sendData(i2c008, 72);
-    unsigned int result = wiring.readData(i2c008);
-
-    dlog << LINFO << "sent 72 and got back " << result;
 
     // ComponentsFactory fact = ComponentsFactory();
 
