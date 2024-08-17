@@ -17,6 +17,8 @@ set(rrenvironment_SOURCES
     src/rrenvironment/rrenvironment.cpp
     src/rrenvironment/wiring/wiringi2c.hpp
     src/rrenvironment/wiring/wiringi2c.cpp
+    src/rrenvironment/functions/function.hpp
+    src/rrenvironment/functions/rr_motors.hpp
 )
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "wiringpi, wiringpi (>= 3.2)")
 set(PUBLIC_HEADER include/rrenvironment.h)

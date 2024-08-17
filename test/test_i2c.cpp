@@ -16,7 +16,7 @@ int main()
     dlog << LINFO << "start testing";
 
     rrenv::RrWiringI2C wiring = rrenv::RrWiringI2C();
-    int fd = wiring.link_device(RR_ADDR_I2C_MC2, RR_IO_MOTORS, RR_IO_MOTORS);
+    int fd = wiring.link_device(RR_ADDR_I2C_MC2, RR_IO_MOTOR_A, RR_IO_MOTOR_A);
 
     std::map<uint8_t, int>  addr2file = wiring.get_i2c_addr2file_map();
 
@@ -29,7 +29,7 @@ int main()
     }
 
     std::map<uint8_t, uint8_t> io2addr_map = wiring.get_i2c_io2addr_map();
-    if (io2addr_map[RR_IO_MOTORS] == RR_ADDR_I2C_MC2) {
+    if (io2addr_map[RR_IO_MOTOR_A] == RR_ADDR_I2C_MC2) {
         dlog << LINFO << "has io to addr reference";
     }
     else 
@@ -38,9 +38,9 @@ int main()
     }
 
     std::vector<uint8_t> data = {4, 3, 2, 1};
-    rrenv::RrIoTxRx rtx = rrenv::RrIoTxRx(RR_IO_MOTORS, data);
+    rrenv::RrIoTxRx rtx = rrenv::RrIoTxRx(RR_IO_MOTOR_A, data);
     wiring.send_block_data(rtx);
-    rrenv::RrIoTxRx response = wiring.receive_block_data(RR_IO_MOTORS, 4);
+    rrenv::RrIoTxRx response = wiring.receive_block_data(RR_IO_MOTOR_A, 4);
 
     for (auto i : response._bytes) {
         dlog << LINFO << "bytes : " << i;
