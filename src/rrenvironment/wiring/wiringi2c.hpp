@@ -105,7 +105,9 @@ namespace rrenv {
     
         void send_block_data(const RrIoTx &request);
 
-        RrIoRx receive_block_data(uint8_t addr);
+        void send_block_data2(const RrIoTx &request);
+
+        RrIoRx receive_block_data(const uint8_t cmd);
 
     private:
         // Address points to file descriptor

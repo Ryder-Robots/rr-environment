@@ -58,7 +58,21 @@ namespace rrenv
         return _addr2fd_map[addr];
     }
 
-    void RrWiringI2C::send_block_data(const RrIoTx &request)
+    void RrWiringI2C::send_block_data(const RrIoTx &request) {
+        dlog_i2c << dlib::LDEBUG << "sending bytes to device: " << std::hex << _func2addr_map[request._io];
+        int fd = _addr2fd_map[_func2addr_map[request._io]];
+        uint8_t reg = _func2cmd_map[request._io];
+        
+        uint8_t values[] = {4,2,3,4};
+        wiringPiI2CWriteBlockData(fd, reg, values, 6);
+        // for (auto i = 0; i < 4; i++) {
+        //     dlog_i2c << dlib::LDEBUG << "sending: " << (int) values[i]
+        //     wiringPiI2CWrite(fd, values[i]);
+        // }
+
+    }
+
+    void RrWiringI2C::send_block_data2(const RrIoTx &request)
     {
         dlog_i2c << dlib::LDEBUG << "sending bytes to device: " << std::hex << _func2addr_map[request._io];
         int fd = _addr2fd_map[_func2addr_map[request._io]];
@@ -72,6 +86,23 @@ namespace rrenv
             dlog_i2c << dlib::LERROR << "unable to send data: " << strerror(errno);
             throw std::runtime_error("unable to send data");
         }
+    }
+
+    RrIoRx RrWiringI2C::receive_block_data(const uint8_t cmd) 
+    {
+        RrIoRx rx = RrIoRx();
+        int fd = _addr2fd_map[_func2addr_map[cmd]];
+        uint8_t reg = _func2cmd_map[cmd];
+        uint8_t values[6] = {4,2,3,4};
+
+        int rv = wiringPiI2CReadBlockData(fd, reg, values, 6);
+ 
+        dlog_i2c << dlib::LINFO << "values[0]: " << (int) ( values[0]);
+        dlog_i2c << dlib::LINFO << "values[1]: " << (int) ( values[1]);
+        dlog_i2c << dlib::LINFO << "values[2]: " << (int) ( values[2]);
+        dlog_i2c << dlib::LINFO << "values[3]: " << (int) ( values[3]);
+
+        return rx;
     }
 
 }

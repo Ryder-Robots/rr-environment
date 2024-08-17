@@ -37,11 +37,12 @@ int main()
         return 1;
     }
 
-    std::list<uint8_t> data = {72};
+    std::list<uint8_t> data = {4, 3, 2, 1};
     rrenv::RrIoTx rtx = rrenv::RrIoTx();
     rtx._io = RR_IO_MOTORS;
     rtx._bytes = data;
-    wiring.send_block_data(rtx);
+    wiring.send_block_data2(rtx);
+    wiring.receive_block_data(RR_IO_MOTORS);
 
 
 
