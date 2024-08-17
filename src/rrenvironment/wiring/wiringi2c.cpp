@@ -58,34 +58,30 @@ namespace rrenv
         return _addr2fd_map[addr];
     }
 
-    void RrWiringI2C::send_block_data(const RrIoTx &request) {
-        dlog_i2c << dlib::LDEBUG << "sending bytes to device: " << std::hex << _func2addr_map[request._io];
-        int fd = _addr2fd_map[_func2addr_map[request._io]];
-        uint8_t reg = _func2cmd_map[request._io];
-        
-        uint8_t values[] = {4,2,3,4};
-        wiringPiI2CWriteBlockData(fd, reg, values, 6);
-        // for (auto i = 0; i < 4; i++) {
-        //     dlog_i2c << dlib::LDEBUG << "sending: " << (int) values[i]
-        //     wiringPiI2CWrite(fd, values[i]);
-        // }
 
-    }
-
-    void RrWiringI2C::send_block_data2(const RrIoTx &request)
+    void RrWiringI2C::send_block_data(const RrIoTx &request)
     {
         dlog_i2c << dlib::LDEBUG << "sending bytes to device: " << std::hex << _func2addr_map[request._io];
         int fd = _addr2fd_map[_func2addr_map[request._io]];
+        size_t bsz = (request._bytes.size() > I2C_SMBUS_BLOCK_MAX) ? I2C_SMBUS_BLOCK_MAX : request._bytes.size();
         uint8_t reg = _func2cmd_map[request._io];
+        uint8_t *data = new uint8_t[4];
+        size_t offset = 0;
 
-        uint8_t *data = new uint8_t[request._bytes.size()];
-        copy(request._bytes.begin(),request._bytes.end(), data);
+        std::copy(request._bytes.begin(), request._bytes.end(), data);
+        wiringPiI2CWriteBlockData(fd, reg, data, 6);
 
-        if (wiringPiI2CWriteBlockData(fd, reg, data, request._bytes.size()) != 0) 
-        {
-            dlog_i2c << dlib::LERROR << "unable to send data: " << strerror(errno);
-            throw std::runtime_error("unable to send data");
-        }
+        // for (auto b : request._bytes) {
+        //     data[offset++] = b;
+        //     if (sizeof(data) == bsz) {
+        //         if (wiringPiI2CWriteBlockData(fd, reg, data, request._bytes.size() + 2) != 0) 
+        //         {
+        //             dlog_i2c << dlib::LERROR << "unable to send data: " << strerror(errno);
+        //             throw std::runtime_error("unable to send data");
+        //         }
+        //         offset = 0;
+        //     }
+        // }
     }
 
     RrIoRx RrWiringI2C::receive_block_data(const uint8_t cmd) 
@@ -101,6 +97,9 @@ namespace rrenv
         dlog_i2c << dlib::LINFO << "values[1]: " << (int) ( values[1]);
         dlog_i2c << dlib::LINFO << "values[2]: " << (int) ( values[2]);
         dlog_i2c << dlib::LINFO << "values[3]: " << (int) ( values[3]);
+        dlog_i2c << dlib::LINFO << "values[3]: " << (int) ( values[4]);
+        dlog_i2c << dlib::LINFO << "values[3]: " << (int) ( values[5]);
+
 
         return rx;
     }

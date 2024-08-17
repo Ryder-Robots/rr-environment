@@ -19,14 +19,16 @@
 #include <iostream>
 #include <chrono>
 #include <unistd.h>
-#include <vector>
 #include <exception>
+#include <iterator>
 #include <dlib/logger.h>
 #include <wiringPiI2C.h>
 #include <rrenvironment/rrenvironment.h>
 #include <rrenvironment/microprocessor.h>
 
 namespace rrenv {
+
+    #define I2C_SMBUS_BLOCK_MAX 2
 
     /*!
      * \def rr_io_tx cmd  = rr_io_tx()
@@ -104,8 +106,6 @@ namespace rrenv {
         std::map<uint8_t, uint8_t> get_i2c_io2reg_map();
     
         void send_block_data(const RrIoTx &request);
-
-        void send_block_data2(const RrIoTx &request);
 
         RrIoRx receive_block_data(const uint8_t cmd);
 
