@@ -15,3 +15,11 @@
 
 * Camera
 -- https://raspberrytips.com/use-c-on-raspberry-pi/
+
+* L298N H-Bridge Driver Monitoring x 2
+-- Purchase https://core-electronics.com.au/full-bridge-motor-driver-dual-l298n.html
+-- Datasheet https://www.sparkfun.com/datasheets/Robotics/L298_H_Bridge.pdf
+
+* Arduino Every Micro-Controllers x 2
+-- Purchase https://core-electronics.com.au/arduino-nano-every.html
+-- 
