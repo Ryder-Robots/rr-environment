@@ -28,7 +28,7 @@
 
 namespace rrenv {
 
-    #define I2C_SMBUS_BLOCK_MAX 2
+    #define I2C_SMBUS_BLOCK_MAX 4
 
     /*!
      * \def rr_io_tx cmd  = rr_io_tx()
@@ -44,7 +44,7 @@ namespace rrenv {
         std::hash<std::string> _trace_id;  // indicates where the request originally came from
         std::hash<std::string> _span_id;   // indicates what subsysterms this request has touched.
         uint8_t _io;                       // this must be a value a RR_IO
-        std::list<uint8_t> _bytes;         // bytes to send the microprocessor
+        std::vector<uint8_t> _bytes;         // bytes to send the microprocessor
     };
 
     /*!
@@ -59,7 +59,7 @@ namespace rrenv {
         std::hash<std::string> _trace_id;  // indicates where the request originally came from
         std::hash<std::string> _span_id;   // indicates what subsysterms this request has touched.
         uint8_t _io;               // this must be a value a RR_IO
-        std::list<uint8_t> _bytes; // bytes recieved from micro processor.
+        std::vector<uint8_t> _bytes; // bytes recieved from micro processor.
     };
 
     /*

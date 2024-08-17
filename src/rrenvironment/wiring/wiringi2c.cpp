@@ -9,15 +9,16 @@ dlib::logger dlog_i2c("rr-environment");
 
 namespace rrenv
 {
-    RrWiringI2C::RrWiringI2C():
-    _addr2fd_map{},
-    _func2addr_map{},
-    _func2cmd_map{}
-    {}
+    RrWiringI2C::RrWiringI2C() : _addr2fd_map{},
+                                 _func2addr_map{},
+                                 _func2cmd_map{}
+    {
+    }
 
     // close all the file descriptors.
-    RrWiringI2C::~RrWiringI2C() {
-        
+    RrWiringI2C::~RrWiringI2C()
+    {
+
         for (auto it : _addr2fd_map)
         {
             close(it.second);
@@ -34,14 +35,13 @@ namespace rrenv
         return _func2addr_map;
     }
 
-
-
     /**
      * Register a linked to device to the internal map.
      */
     int RrWiringI2C::link_device(const u_int8_t addr, const uint8_t io, const uint8_t reg)
     {
-        if (_addr2fd_map.count(addr) == 0) {
+        if (_addr2fd_map.count(addr) == 0)
+        {
             int fd = wiringPiI2CSetup(addr);
             if (fd == -1)
             {
@@ -58,55 +58,51 @@ namespace rrenv
         return _addr2fd_map[addr];
     }
 
-
     void RrWiringI2C::send_block_data(const RrIoTx &request)
     {
         dlog_i2c << dlib::LDEBUG << "sending bytes to device: " << std::hex << _func2addr_map[request._io];
         int fd = _addr2fd_map[_func2addr_map[request._io]];
-        size_t bsz = (request._bytes.size() > I2C_SMBUS_BLOCK_MAX) ? I2C_SMBUS_BLOCK_MAX : request._bytes.size();
         uint8_t reg = _func2cmd_map[request._io];
-        uint8_t *data = new uint8_t[4];
-        size_t offset = 0;
+        uint8_t *data = new uint8_t[I2C_SMBUS_BLOCK_MAX];
 
-        std::copy(request._bytes.begin(), request._bytes.end(), data);
-        wiringPiI2CWriteBlockData(fd, reg, data, 6);
-
-        // for (auto b : request._bytes) {
-        //     data[offset++] = b;
-        //     if (sizeof(data) == bsz) {
-        //         if (wiringPiI2CWriteBlockData(fd, reg, data, request._bytes.size() + 2) != 0) 
-        //         {
-        //             dlog_i2c << dlib::LERROR << "unable to send data: " << strerror(errno);
-        //             throw std::runtime_error("unable to send data");
-        //         }
-        //         offset = 0;
-        //     }
-        // }
+        auto offset = 0;
+        auto remainder = request._bytes.size();
+        while (remainder > 0)
+        {
+            int sz = (remainder < I2C_SMBUS_BLOCK_MAX) ? remainder : I2C_SMBUS_BLOCK_MAX;
+            for (int i = 0; i < sz; i++)
+            {
+                data[i] = request._bytes.at(offset++);
+                remainder--;
+            }
+            if (wiringPiI2CWriteBlockData(fd, reg, data, request._bytes.size() + 2) != 0)
+            {
+                dlog_i2c << dlib::LERROR << "unable to send data: " << strerror(errno);
+                throw std::runtime_error("unable to send data");
+            }
+        }
     }
 
-    RrIoRx RrWiringI2C::receive_block_data(const uint8_t cmd) 
+    RrIoRx RrWiringI2C::receive_block_data(const uint8_t cmd)
     {
         RrIoRx rx = RrIoRx();
         int fd = _addr2fd_map[_func2addr_map[cmd]];
         uint8_t reg = _func2cmd_map[cmd];
-        uint8_t values[6] = {4,2,3,4};
+        uint8_t values[6] = {4, 2, 3, 4};
 
         int rv = wiringPiI2CReadBlockData(fd, reg, values, 6);
- 
-        dlog_i2c << dlib::LINFO << "values[0]: " << (int) ( values[0]);
-        dlog_i2c << dlib::LINFO << "values[1]: " << (int) ( values[1]);
-        dlog_i2c << dlib::LINFO << "values[2]: " << (int) ( values[2]);
-        dlog_i2c << dlib::LINFO << "values[3]: " << (int) ( values[3]);
-        dlog_i2c << dlib::LINFO << "values[3]: " << (int) ( values[4]);
-        dlog_i2c << dlib::LINFO << "values[3]: " << (int) ( values[5]);
 
+        dlog_i2c << dlib::LINFO << "values[0]: " << (int)(values[0]);
+        dlog_i2c << dlib::LINFO << "values[1]: " << (int)(values[1]);
+        dlog_i2c << dlib::LINFO << "values[2]: " << (int)(values[2]);
+        dlog_i2c << dlib::LINFO << "values[3]: " << (int)(values[3]);
+        dlog_i2c << dlib::LINFO << "values[3]: " << (int)(values[4]);
+        dlog_i2c << dlib::LINFO << "values[3]: " << (int)(values[5]);
 
         return rx;
     }
 
 }
-
-
 
 //     void WiringI2C::sendData(const int fd, const uint8_t data_to_send)
 //     {
