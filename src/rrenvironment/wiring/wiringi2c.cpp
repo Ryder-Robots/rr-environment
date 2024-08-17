@@ -83,14 +83,14 @@ namespace rrenv
         }
     }
 
-    RrIoRx RrWiringI2C::receive_block_data(const uint8_t cmd)
+    RrIoRx RrWiringI2C::receive_block_data(const uint8_t cmd, const size_t sz)
     {
         RrIoRx rx = RrIoRx();
         int fd = _addr2fd_map[_func2addr_map[cmd]];
         uint8_t reg = _func2cmd_map[cmd];
-        uint8_t values[6] = {4, 2, 3, 4};
+        uint8_t values[sz + 2] = {4, 2, 3, 4};
 
-        int rv = wiringPiI2CReadBlockData(fd, reg, values, 6);
+        int rv = wiringPiI2CReadBlockData(fd, reg, values, sz + 2);
 
         dlog_i2c << dlib::LINFO << "values[0]: " << (int)(values[0]);
         dlog_i2c << dlib::LINFO << "values[1]: " << (int)(values[1]);

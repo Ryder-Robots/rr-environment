@@ -39,6 +39,15 @@ namespace rrenv {
      */
     class RrIoTx {
     public:
+        RrIoTx(const uint8_t io, const std::vector<uint8_t> bytes):
+            _tp{},
+            _trace_id{},
+            _span_id{} 
+        {
+            _io = io;
+            _bytes = bytes;
+        }
+
         // time that the request was sent.
         std::chrono::time_point<std::chrono::system_clock> _tp; 
         std::hash<std::string> _trace_id;  // indicates where the request originally came from
@@ -107,7 +116,7 @@ namespace rrenv {
     
         void send_block_data(const RrIoTx &request);
 
-        RrIoRx receive_block_data(const uint8_t cmd);
+        RrIoRx receive_block_data(const uint8_t cmd, const size_t sz);
 
     private:
         // Address points to file descriptor
