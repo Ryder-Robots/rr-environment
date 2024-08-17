@@ -37,9 +37,9 @@ namespace rrenv {
      * in the order that is expected by the device or micro-processor. Byte are to sent
      * using MSb
      */
-    class RrIoTx {
+    class RrIoTxRx {
     public:
-        RrIoTx(const uint8_t io, const std::vector<uint8_t> bytes):
+        RrIoTxRx(const uint8_t io, const std::vector<uint8_t> bytes):
             _tp{},
             _trace_id{},
             _span_id{} 
@@ -53,22 +53,7 @@ namespace rrenv {
         std::hash<std::string> _trace_id;  // indicates where the request originally came from
         std::hash<std::string> _span_id;   // indicates what subsysterms this request has touched.
         uint8_t _io;                       // this must be a value a RR_IO
-        std::vector<uint8_t> _bytes;         // bytes to send the microprocessor
-    };
-
-    /*!
-     * \def rr_io_rx rx = wiring.recieve_data_block(RR_IO_MOTORS);
-     *
-     * Data recieved from the device or micro-controller.
-     */
-    class RrIoRx {
-    public:
-        // time that the request was sent.
-        std::chrono::time_point<std::chrono::system_clock> _tp; 
-        std::hash<std::string> _trace_id;  // indicates where the request originally came from
-        std::hash<std::string> _span_id;   // indicates what subsysterms this request has touched.
-        uint8_t _io;               // this must be a value a RR_IO
-        std::vector<uint8_t> _bytes; // bytes recieved from micro processor.
+        std::vector<uint8_t> _bytes;       // bytes to send the microprocessor
     };
 
     /*
@@ -97,7 +82,7 @@ namespace rrenv {
          * \param request request to send to device.
          * \return response from device.
          */
-        RrIoRx tx_rx(const RrIoTx &request);
+        RrIoTxRx tx_rx(const RrIoTxRx &request);
 
         /*!
          * list of registered addresses, and their associated file descrptors.
@@ -114,9 +99,9 @@ namespace rrenv {
          */
         std::map<uint8_t, uint8_t> get_i2c_io2reg_map();
     
-        void send_block_data(const RrIoTx &request);
+        void send_block_data(const RrIoTxRx &request);
 
-        RrIoRx receive_block_data(const uint8_t cmd, const size_t sz);
+        RrIoTxRx receive_block_data(const uint8_t cmd, const size_t sz);
 
     private:
         // Address points to file descriptor

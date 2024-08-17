@@ -38,9 +38,13 @@ int main()
     }
 
     std::vector<uint8_t> data = {4, 3, 2, 1};
-    rrenv::RrIoTx rtx = rrenv::RrIoTx(RR_IO_MOTORS, data);
+    rrenv::RrIoTxRx rtx = rrenv::RrIoTxRx(RR_IO_MOTORS, data);
     wiring.send_block_data(rtx);
-    wiring.receive_block_data(RR_IO_MOTORS, 4);
+    rrenv::RrIoTxRx response = wiring.receive_block_data(RR_IO_MOTORS, 4);
+
+    for (auto i : response._bytes) {
+        dlog << LINFO << "bytes : " << i;
+    }
 
 
 
