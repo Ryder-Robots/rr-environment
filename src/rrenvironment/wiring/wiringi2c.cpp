@@ -35,6 +35,11 @@ namespace rrenv
         return _func2addr_map;
     }
 
+    std::map<uint8_t, uint8_t> RrWiringI2C::get_i2c_io2reg_map()
+    {
+        return _func2cmd_map;
+    }
+
     /**
      * Register a linked to device to the internal map.
      */

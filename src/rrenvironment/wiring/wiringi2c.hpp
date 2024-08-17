@@ -76,13 +76,6 @@ namespace rrenv {
          */
         int link_device(const uint8_t addr, const uint8_t cmd, const uint8_t reg);
 
-        /*!
-         * sends request to I2C device or micro-processor.
-         *
-         * \param request request to send to device.
-         * \return response from device.
-         */
-        RrIoTxRx tx_rx(const RrIoTxRx &request);
 
         /*!
          * list of registered addresses, and their associated file descrptors.
