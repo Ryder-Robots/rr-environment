@@ -46,19 +46,5 @@ int main()
         dlog << LINFO << "bytes : " << i;
     }
 
-
-
-    // wiring.sendData(i2c008, 72);
-    // unsigned int result = wiring.readData(i2c008);
-    // dlog << LINFO << "result:" << result;
-
-    // std::list<uint8_t> data = {72, 80, 81};
-
-    // wiring.sendDataBlock(i2c008, data);
-    // std::list<uint8_t> blockResult = wiring.readDataBlock(i2c008, 1);
-    // dlog << LINFO << "blockResult:" << (int) blockResult.front();
-
-    // (result == 72) ? dlog << LINFO << "successfully got one byte back" : perror("can not send bytes");
-
     return 0;
 }

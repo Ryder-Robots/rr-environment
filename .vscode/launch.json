@@ -15,20 +15,6 @@
             "environment": [],
             "externalConsole": false,
             "miDebuggerPath": "/usr/bin/gdb",
-            "MIMode": "gdb"
-        },
-        {
-            "name": "(gdb) test_component_fact",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/build/test_component_fact",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": false,
-            "miDebuggerPath": "/home/aaron/bin/gdb",
-            "MIMode": "gdb"
         }
     ]
 }

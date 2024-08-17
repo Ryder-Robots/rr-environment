@@ -15,18 +15,8 @@ set(VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPAC
 set(JSON_VERSION v3.11.3)
 set(rrenvironment_SOURCES 
     src/rrenvironment/rrenvironment.cpp
-    src/rrenvironment/actions.hpp 
-    src/rrenvironment/wiring.hpp
-    src/rrenvironment/wiring/wiringgpio.cpp
     src/rrenvironment/wiring/wiringi2c.hpp
     src/rrenvironment/wiring/wiringi2c.cpp
-    src/rrenvironment/actions/l298.hpp
-    src/rrenvironment/actions/l298.cpp
-    src/rrenvironment/observers.hpp
-    src/rrenvironment/observers/hcsr04.hpp
-    src/rrenvironment/observers/hcsr04.cpp
-    src/rrenvironment/componentfact.hpp
-    src/rrenvironment/componentfact.cpp
 )
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "wiringpi, wiringpi (>= 3.2)")
 set(PUBLIC_HEADER include/rrenvironment.h)
@@ -61,11 +51,4 @@ target_link_libraries(test_i2c dlib)
 add_test(NAME test_i2c
         COMMAND test_i2c)
 
-#TODO: This library is broken and needs fixing :(
-include_directories(src)
-add_executable(test_component_fact test/test_component_fact.cpp)
-target_link_libraries(test_component_fact rrenvironment)
-target_link_libraries(test_component_fact dlib)
-add_test(NAME test_component_fact
-        COMMAND test_component_fact)
 
